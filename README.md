@@ -31,28 +31,7 @@ text-davinci-003	2021-10-10 	native 		InstructGPT by OpenAI
 llama				2021-10-10 	snwfdhmp	Meta's Llama
 ```
 
-## Configuration
-
-```yaml
-version: 1.0
-modelName: text-davinci-003
-run:
-    type: http
-    config:
-        method: POST
-        url: https://api.openai.com/v1/engines/davinci/completions
-        headers:
-            - Authorization: Bearer ${OPENAI_API_KEY}
-```
-
-Variables are resolved from env variables. If a variable is not found, it is asked to the user.
-
-```
-$ llm --model-file ./davinci.yaml "what is the meaning of life?"
-$OPENAI_API_KEY is not set. Enter value:
-```
-
-## Note
+## Roadmap
 
 - Use npm modules for extensions, simpler, more standard, and easier to maintain.
-- Use a config file to store the default models, and the list of installed models.
+- Use a config file to list native models and installed models.
