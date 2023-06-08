@@ -22,7 +22,14 @@ bind `llm`
 alias llm="node $(pwd)/main.js"
 ```
 
-add this to your `.bashrc` or `.zshrc` to make it permanent.
+and add it to your `.bashrc` or `.zshrc` to make it permanent.
+
+```
+export OPENAI_API_KEY=""
+export BING_COOKIE=""
+```
+
+and add it to your `.bashrc` or `.zshrc` to make it permanent.
 
 ## Usage
 
