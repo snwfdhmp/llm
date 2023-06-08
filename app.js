@@ -4,6 +4,8 @@ import { hideBin } from "yargs/helpers"
 import colors from "colors"
 import { MODELS } from "./constants.js"
 import { BingChat } from "bing-chat"
+import dotenv from "dotenv"
+dotenv.config()
 
 const bing = new BingChat({
   cookie: process.env.BING_COOKIE,
@@ -21,7 +23,7 @@ yargs(hideBin(process.argv))
     "Use large language models",
     (yargs) => {
       yargs.option("model", {
-        describe: "text-davinci-003,gpt-3.5-turbo",
+        describe: "text-davinci-003,bing,...",
         default: "gpt-3.5-turbo",
         alias: "m",
       })
@@ -41,58 +43,96 @@ yargs(hideBin(process.argv))
         default: null,
         alias: "T",
       })
+      yargs.option("file", {
+        describe: "/path/to/prompt.txt",
+        default: "",
+        alias: "f",
+      })
     },
     async (args) => {
       if (!MODELS[args.model]) {
         console.log(`Model ${args.model} not found`)
         process.exit(1)
-      } else if (MODELS[args.model].kind === "openai") {
-        process.stdout.write(args.prompt.gray)
-        const completion = (
-          await openai.createCompletion(
-            {
-              model: args.model,
-              prompt: args.prompt,
-              max_tokens: args["max-tokens"],
-              temperature: args.temperature,
-            },
-            {
-              timeout: 1000 * 60 * 60,
-            }
-          )
-        ).data.choices[0].text
-        process.stdout.write(" " + completion)
-      } else if (MODELS[args.model].kind === "openai-chat") {
-        process.stdout.write(`System: ${args.system}\n`.gray)
-        process.stdout.write(`User: ${args.prompt}`.gray)
-        const completion = (
-          await openai.createChatCompletion(
-            {
-              model: args.model,
-              max_tokens: args["max-tokens"],
-              temperature: args.temperature,
-              messages: [
-                {
-                  role: "system",
-                  content: args.system,
-                },
-                {
-                  role: "user",
-                  content: args.prompt,
-                },
-              ],
-            },
-            {
-              timeout: 1000 * 60 * 60,
-            }
-          )
-        ).data.choices[0].message.content
-        process.stdout.write("\nAssistant: " + completion)
-      } else if (MODELS[args.model].kind === "bing") {
-        const res = await bing.sendMessage(args.prompt)
-        console.log(res.text)
-      } else {
-        console.log(`model ${args.model} is known but not supported yet`)
+      }
+
+      switch (MODELS[args.model].kind) {
+        case "openai": {
+          process.stdout.write(args.prompt.gray)
+          const completion = (
+            await openai.createCompletion(
+              {
+                model: args.model,
+                prompt: args.prompt,
+                max_tokens: args["max-tokens"],
+                temperature: args.temperature,
+              },
+              {
+                timeout: 1000 * 60 * 60,
+              }
+            )
+          ).data.choices[0].text
+          process.stdout.write(" " + completion)
+          break
+        }
+        case "openai-chat": {
+          process.stdout.write(`System: ${args.system}\n`.gray)
+          process.stdout.write(`User: ${args.prompt}`.gray)
+          completion = (
+            await openai.createChatCompletion(
+              {
+                model: args.model,
+                max_tokens: args["max-tokens"],
+                temperature: args.temperature,
+                messages: [
+                  {
+                    role: "system",
+                    content: args.system,
+                  },
+                  {
+                    role: "user",
+                    content: args.prompt,
+                  },
+                ],
+              },
+              {
+                timeout: 1000 * 60 * 60,
+              }
+            )
+          ).data.choices[0].message.content
+          process.stdout.write("\nAssistant: " + completion)
+          break
+        }
+        case "bing-creative": {
+          process.stdout.write(`User: ${args.prompt}`.gray)
+          const res = await bing.sendMessage(args.prompt, {
+            variant: "Creative",
+          })
+          process.stdout.write(`\nBing: `)
+          process.stdout.write(res.text)
+          break
+        }
+        case "bing":
+        case "bing-balanced": {
+          process.stdout.write(`User: ${args.prompt}`.gray)
+          const res = await bing.sendMessage(args.prompt, {
+            variant: "Balanced",
+          })
+          process.stdout.write(`\nBing: `)
+          process.stdout.write(res.text)
+          break
+        }
+        case "bing-precise": {
+          process.stdout.write(`User: ${args.prompt}`.gray)
+          const res = await bing.sendMessage(args.prompt, {
+            variant: "Precise",
+          })
+          process.stdout.write(`\nBing: `)
+          process.stdout.write(res.text)
+          break
+        }
+        default:
+          console.log(`model ${args.model} is known but not supported yet`)
+          break
       }
     }
   )

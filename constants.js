@@ -49,4 +49,7 @@ export const MODELS = {
   "whisper-1": { kind: "openai" },
   "gpt-3.5-turbo": { kind: "openai-chat" },
   bing: { kind: "bing" },
+  "bing-creative": { kind: "bing-creative" },
+  "bing-balanced": { kind: "bing-balanced" },
+  "bing-precise": { kind: "bing-precise" },
 }
