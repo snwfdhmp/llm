@@ -4,6 +4,7 @@ import { hideBin } from "yargs/helpers"
 import colors from "colors"
 import { MODELS } from "./constants.js"
 import { BingChat } from "bing-chat"
+import fs from "fs"
 import dotenv from "dotenv"
 dotenv.config()
 
@@ -16,6 +17,7 @@ const openaiConfiguration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 })
 const openai = new OpenAIApi(openaiConfiguration)
+
 yargs(hideBin(process.argv))
   .scriptName("llm")
   .command(
@@ -44,14 +46,15 @@ yargs(hideBin(process.argv))
         alias: "T",
       })
       yargs.option("file", {
-        describe: "/path/to/prompt.txt",
-        default: "",
+        describe: "./path/to/prompt.txt",
+        default: false,
+        boolean: true,
         alias: "f",
       })
     },
     async (args) => {
       if (args.file) {
-        args.prompt = fs.readFileSync(args.file, "utf8")
+        args.prompt = fs.readFileSync(args.prompt, "utf8")
       }
       if (!MODELS[args.model]) {
         console.log(`Model ${args.model} not found`)
