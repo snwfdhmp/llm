@@ -15,7 +15,7 @@ Its goal is to simplify querying LLMs from the command line or using scripts.
 ```
 $ llm "what is the meaning of life?"
 default model prompting
-$ llm --model text-davinci-003 "what is the meaning of life?"
+$ llm -m gpt-3.5-turbo "what is the meaning of life?"
 use text-davinci-003
 $ llm -s session_name "what is the meaning of life?"
 remembers past messages
