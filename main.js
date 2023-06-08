@@ -50,6 +50,9 @@ yargs(hideBin(process.argv))
       })
     },
     async (args) => {
+      if (args.file) {
+        args.prompt = fs.readFileSync(args.file, "utf8")
+      }
       if (!MODELS[args.model]) {
         console.log(`Model ${args.model} not found`)
         process.exit(1)
