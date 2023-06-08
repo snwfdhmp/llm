@@ -34,12 +34,12 @@ llama				2021-10-10 	snwfdhmp	Meta's Llama
 version: 1.0
 modelName: text-davinci-003
 run:
-	type: http
-	config:
-		method: POST
-		url: https://api.openai.com/v1/engines/davinci/completions
-		headers:
-			- Authorization: Bearer ${OPENAI_API_KEY}
+    type: http
+    config:
+        method: POST
+        url: https://api.openai.com/v1/engines/davinci/completions
+        headers:
+            - Authorization: Bearer ${OPENAI_API_KEY}
 ```
 
 Variables are resolved from env variables. If a variable is not found, it is asked to the user.
