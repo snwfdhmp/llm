@@ -58,7 +58,6 @@ yargs(hideBin(process.argv))
         process.exit(1)
       }
 
-      let completion
       switch (MODELS[args.model].kind) {
         case "openai": {
           process.stdout.write(args.prompt.gray)
@@ -81,7 +80,7 @@ yargs(hideBin(process.argv))
         case "openai-chat": {
           process.stdout.write(`System: ${args.system}\n`.gray)
           process.stdout.write(`User: ${args.prompt}`.gray)
-          completion = (
+          const completion = (
             await openai.createChatCompletion(
               {
                 model: args.model,
