@@ -1,4 +1,4 @@
-# llm : one cli to rule them all
+# llm : use any LLM from the command line
 
 > This is still a work in progress. Features are subject to change and not all features are implemented yet.
 
@@ -31,7 +31,7 @@ add this to your `.bashrc` or `.zshrc` to make it permanent.
 ```
 $ llm "what is the meaning of life?"
 default model prompting
-$ llm --model text-davinci-003 "what is the meaning of life?"
+$ llm -m gpt-3.5-turbo "what is the meaning of life?"
 use text-davinci-003
 $ llm -s session_name "what is the meaning of life?"
 remembers past messages
