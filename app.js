@@ -145,9 +145,18 @@ yargs(hideBin(process.argv))
         (a, b) => a.created - b.created
       )
 
+      for (const model in MODELS) {
+        if (models.map((e) => e.id).indexOf(model) === -1) {
+          models.push({ id: model })
+        }
+      }
+
       console.log(
         models
-          .map((e) => `${e.id.padEnd(36)} ${relativeDate(e.created)}`)
+          .map(
+            (e) =>
+              `${e.id.padEnd(36)} ${e.created ? relativeDate(e.created) : ""}`
+          )
           .join("\n")
       )
     }
