@@ -8,6 +8,22 @@ llm is a CLI that allows you to use any LLM from the command line.
 It is built as a frontend that is not tied to any specific LLM, and can be used with any LLM.
 Its goal is to simplify querying LLMs from the command line or using scripts.
 
+## Getting started
+
+```
+git clone https://github.com/snwfdhmp/llm
+cd llm
+yarn install
+```
+
+bind `llm` 
+
+```
+alias llm="node $(pwd)/main.js"
+```
+
+add this to your `.bashrc` or `.zshrc` to make it permanent.
+
 ## Usage
 
 > Still in development
