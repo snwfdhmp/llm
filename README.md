@@ -35,7 +35,7 @@ You're ready to go ! Try
 
 ```
 $ llm "Hello world"
-
+```
 
 ## Usage
 
