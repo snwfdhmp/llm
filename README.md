@@ -1,5 +1,7 @@
 # llm : one cli to rule them all
 
+> This is still a work in progress. Features are subject to change and not all features are implemented yet.
+
 ## Concept
 
 llm is a CLI that allows you to use any LLM from the command line.
