@@ -75,6 +75,7 @@ yargs(hideBin(process.argv))
             )
           ).data.choices[0].text
           process.stdout.write(" " + completion)
+          if (!completion.endsWith("\n")) process.stdout.write("\n")
           break
         }
         case "openai-chat": {
@@ -103,6 +104,8 @@ yargs(hideBin(process.argv))
             )
           ).data.choices[0].message.content
           process.stdout.write("\nAssistant: " + completion)
+          // add \n if missing
+          if (!completion.endsWith("\n")) process.stdout.write("\n")
           break
         }
         case "bing-creative": {
@@ -110,8 +113,10 @@ yargs(hideBin(process.argv))
           const res = await bing.sendMessage(args.prompt, {
             variant: "Creative",
           })
+          const completion = res.text
           process.stdout.write(`\nBing: `)
-          process.stdout.write(res.text)
+          process.stdout.write(completion)
+          if (!completion.endsWith("\n")) process.stdout.write("\n")
           break
         }
         case "bing":
@@ -120,8 +125,10 @@ yargs(hideBin(process.argv))
           const res = await bing.sendMessage(args.prompt, {
             variant: "Balanced",
           })
+          const completion = res.text
           process.stdout.write(`\nBing: `)
-          process.stdout.write(res.text)
+          process.stdout.write(completion)
+          if (!completion.endsWith("\n")) process.stdout.write("\n")
           break
         }
         case "bing-precise": {
@@ -129,12 +136,15 @@ yargs(hideBin(process.argv))
           const res = await bing.sendMessage(args.prompt, {
             variant: "Precise",
           })
+          const completion = res.text
           process.stdout.write(`\nBing: `)
-          process.stdout.write(res.text)
+          process.stdout.write(completion)
+          if (!completion.endsWith("\n")) process.stdout.write("\n")
           break
         }
         default:
           console.log(`model ${args.model} is known but not supported yet`)
+          process.exit(1)
           break
       }
     }
