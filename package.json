@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "name": "llm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "prettier": {
+    "semi": false
+  },
+  "dependencies": {
+    "bing-chat": "^0.2.3",
+    "colors": "^1.4.0",
+    "openai": "^3.2.1",
+    "yargs": "^17.7.2"
+  }
+}
