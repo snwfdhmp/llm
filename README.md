@@ -1,4 +1,4 @@
-# llm : one cli to rule them all
+# llm : use any LLM from the command line
 
 > This is still a work in progress. Features are subject to change and not all features are implemented yet.
 
