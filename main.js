@@ -58,6 +58,7 @@ yargs(hideBin(process.argv))
         process.exit(1)
       }
 
+      let completion
       switch (MODELS[args.model].kind) {
         case "openai": {
           process.stdout.write(args.prompt.gray)

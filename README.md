@@ -31,6 +31,12 @@ export BING_COOKIE=""
 
 and add it to your `.bashrc` or `.zshrc` to make it permanent.
 
+You're ready to go ! Try
+
+```
+$ llm "Hello world"
+
+
 ## Usage
 
 > Still in development
@@ -46,7 +52,7 @@ $ llm -f ./prompt.txt
 reads prompt from file
 $ llm --install github.com/snwfhdmp/llm-descriptor-llama
 downloads model from github
-$ llm --model "llama" "what is the meaning of life?"
+$ llm -m "llama" "what is the meaning of life?"
 use llama
 $ llm ls
 Name				LastUsedAt	Author 		Description
