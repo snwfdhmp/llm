@@ -35,6 +35,8 @@ You're ready to go ! Try
 
 ```
 $ llm "Hello world"
+$ llm -m bing-creative "Tell me a joke"
+$ llm -m gpt-3.5-turbo "Tell me a joke"
 ```
 
 ## Usage
@@ -64,3 +66,4 @@ llama				2021-10-10 	snwfdhmp	Meta's Llama
 
 - Use npm modules for extensions, simpler, more standard, and easier to maintain.
 - Use a config file to list native models and installed models.
+- Add --stream option to stream output.
