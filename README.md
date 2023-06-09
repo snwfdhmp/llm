@@ -83,7 +83,7 @@ Incoming:
 ```
 $ llm -s session_name "what is the meaning of life?"
 remembers past messages
-$ llm --install github.com/snwfhdmp/llm-descriptor-llama
+$ llm --add github.com/snwfhdmp/llm-descriptor-llama
 downloads model from github
 ```
 
