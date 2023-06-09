@@ -8,9 +8,11 @@
     "semi": false
   },
   "dependencies": {
+    "@llama-node/llama-cpp": "^0.1.6",
     "bing-chat": "^0.2.3",
     "colors": "^1.4.0",
     "dotenv": "^16.1.4",
+    "llama-node": "^0.1.6",
     "openai": "^3.2.1",
     "yargs": "^17.7.2"
   }

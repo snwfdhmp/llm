@@ -6,11 +6,15 @@ import { MODELS } from "./constants.js"
 import { BingChat } from "bing-chat"
 import fs from "fs"
 import dotenv from "dotenv"
+import { runLlama } from "./models/llama.js"
 dotenv.config()
 
-const bing = new BingChat({
-  cookie: process.env.BING_COOKIE,
-})
+let bing
+const initBing = () => {
+  bing = new BingChat({
+    cookie: process.env.BING_COOKIE,
+  })
+}
 
 // create openai
 const openaiConfiguration = new Configuration({
@@ -112,6 +116,7 @@ yargs(hideBin(process.argv))
           break
         }
         case "bing-creative": {
+          initBing()
           process.stdout.write(`User: ${args.prompt}`.gray)
           const res = await bing.sendMessage(args.prompt, {
             variant: "Creative",
@@ -124,6 +129,7 @@ yargs(hideBin(process.argv))
         }
         case "bing":
         case "bing-balanced": {
+          initBing()
           process.stdout.write(`User: ${args.prompt}`.gray)
           const res = await bing.sendMessage(args.prompt, {
             variant: "Balanced",
@@ -135,6 +141,7 @@ yargs(hideBin(process.argv))
           break
         }
         case "bing-precise": {
+          initBing()
           process.stdout.write(`User: ${args.prompt}`.gray)
           const res = await bing.sendMessage(args.prompt, {
             variant: "Precise",
@@ -143,6 +150,16 @@ yargs(hideBin(process.argv))
           process.stdout.write(`\nBing: `)
           process.stdout.write(completion)
           if (!completion.endsWith("\n")) process.stdout.write("\n")
+          break
+        }
+        case "llama": {
+          const completion = await runLlama(args.prompt)
+          if (!completion) {
+            console.log(`${args.model} failed to generate a response.`.yellow)
+            return
+          }
+          process.stdout.write(`${args.prompt}`.gray)
+          process.stdout.write("\n" + completion)
           break
         }
         default:
