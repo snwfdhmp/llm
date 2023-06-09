@@ -8,6 +8,8 @@ llm is a CLI that allows you to use any LLM from the command line.
 It is built as a frontend that is not tied to any specific LLM, and can be used with any LLM.
 Its goal is to simplify querying LLMs from the command line or using scripts.
 
+Project vision and information can be found in [docs/](docs/).
+
 ## Getting started
 
 ```
@@ -122,6 +124,9 @@ model:
 
 ## Roadmap
 
-- Use npm modules for extensions, simpler, more standard, and easier to maintain.
-- Use a config file to list native models and installed models.
-- Add --stream option to stream output.
+Project vision and information can be found in [docs/](docs/).
+
+## Contributing
+
+Contributions are welcome. Please open an issue or a pull request.
+Join the team at [discord.gg/ccDghPeAT9](https://discord.gg/ccDghPeAT9).
