@@ -37,41 +37,68 @@ export BING_COOKIE=""
 $ llm "Hello world"
 $ llm -m bing-creative "Tell me a joke"
 $ llm -m gpt-3.5-turbo "Tell me a joke"
-$ llm ls
 ```
 
 ## Usage
 
 > Still in development
 
+Simple prompting with defaults parameters
+
 ```
 $ llm "what is the meaning of life?"
-default model prompting
+```
+
+Use a specific model
+
+```
 $ llm -m gpt-3.5-turbo "what is the meaning of life?"
-use text-davinci-003
-$ llm -s session_name "what is the meaning of life?"
-remembers past messages
-$ llm -f ./prompt.txt
-reads prompt from file
-$ llm --install github.com/snwfhdmp/llm-descriptor-llama
-downloads model from github
-$ llm -m "llama" "what is the meaning of life?"
-use llama
+```
+
+List available models
+
+```
+
 $ llm ls
 Name				LastUsedAt	Author 		Description
 text-davinci-003	2021-10-10 	native 		InstructGPT by OpenAI
-llama				2021-10-10 	snwfdhmp	Meta's Llama
+gpt-3.5-turbo   	2021-10-10 	native 		ChatGPT by OpenAI
+gpt-4-web          	2021-10-10 	native 		GPT-4 by OpenAI via chatGPT
+llama   			2021-10-10 	snwfdhmp	Meta's Llama
+bard       			2021-10-10 	samwitt_	Google Bard
+```
+
+Use files as prompts
+
+```
+$ llm -f ./prompt.txt
+reads prompt from file
+```
+
+Incoming:
+
+- Remember sessions
+- Install 3rd party models
+
+```
+$ llm -s session_name "what is the meaning of life?"
+remembers past messages
+$ llm --install github.com/snwfhdmp/llm-descriptor-llama
+downloads model from github
 ```
 
 ## Models
 
-These models are supported by default:
-- `gpt-3.5-turbo` : ChatGPT
-- `gpt-4-web` : GPT-4 via chat.openai.com
-- `bing-chat` : Bing Chat: creative, balanced, precise
+> Some models are still being added. This is a work in progress.
+
+These models will be supported by default:
+- `text-davinci-003` : GPT-3 ✅
+- `gpt-3.5-turbo` : ChatGPT ✅
+- `gpt-4-web` : GPT-4 via chat.openai.com 
+- `bing-chat` : Bing Chat: creative, balanced, precise ✅
 - `llama.cpp` : Local llama model
 - `bard` : Google Bard
-- `wizardlm` : WizardLM 30B
+- `wizardlm` : WizardLM 30B 
 - `guanaco65` : Guanaco 65B
 
 Other models can be installed using the `--add` option.
