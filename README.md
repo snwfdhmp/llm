@@ -31,7 +31,7 @@ export BING_COOKIE=""
 
 and add it to your `.bashrc` or `.zshrc` to make it permanent.
 
-You're ready to go ! Try
+**You're ready to go ! Try:**
 
 ```
 $ llm "Hello world"
