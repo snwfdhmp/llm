@@ -10,6 +10,22 @@ Its goal is to simplify querying LLMs from the command line or using scripts.
 
 Project vision and information can be found in [docs/](docs/).
 
+## Models
+
+> Some models are still being added. This is a work in progress.
+
+These models will be supported by default:
+- `text-davinci-003` : GPT-3 ✅
+- `gpt-3.5-turbo` : ChatGPT ✅
+- `gpt-4-web` : GPT-4 via chat.openai.com 
+- `bing-chat` : Bing Chat: creative, balanced, precise ✅
+- `llama.cpp` : Local llama model 
+- `bard` : Google Bard
+- `wizardlm` : WizardLM 30B 
+- `guanaco65` : Guanaco 65B
+
+Other models can be installed using the `--add` option.
+
 ## Getting started
 
 ```
@@ -88,22 +104,6 @@ remembers past messages
 $ llm --add github.com/snwfhdmp/llm-descriptor-llama
 downloads model from github
 ```
-
-## Models
-
-> Some models are still being added. This is a work in progress.
-
-These models will be supported by default:
-- `text-davinci-003` : GPT-3 ✅
-- `gpt-3.5-turbo` : ChatGPT ✅
-- `gpt-4-web` : GPT-4 via chat.openai.com 
-- `bing-chat` : Bing Chat: creative, balanced, precise ✅
-- `llama.cpp` : Local llama model
-- `bard` : Google Bard
-- `wizardlm` : WizardLM 30B 
-- `guanaco65` : Guanaco 65B
-
-Other models can be installed using the `--add` option.
 
 ## LLM Plugins : Add any LLM
 
