@@ -37,6 +37,7 @@ export BING_COOKIE=""
 $ llm "Hello world"
 $ llm -m bing-creative "Tell me a joke"
 $ llm -m gpt-3.5-turbo "Tell me a joke"
+$ llm ls
 ```
 
 ## Usage
