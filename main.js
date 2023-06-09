@@ -7,10 +7,17 @@ import { BingChat } from "bing-chat"
 import fs from "fs"
 import dotenv from "dotenv"
 import { runLlama } from "./models/llama.js"
+import child_process from "child_process"
 dotenv.config()
 
 let bing
 const initBing = () => {
+  if (!process.env.BING_COOKIE) {
+    console.log(
+      "Bing cookie not found. Please set BING_COOKIE environment variable."
+    )
+    process.exit(1)
+  }
   bing = new BingChat({
     cookie: process.env.BING_COOKIE,
   })
@@ -55,117 +62,216 @@ yargs(hideBin(process.argv))
         boolean: true,
         alias: "f",
       })
+      yargs.option("quiet", {
+        describe: "print only the completion",
+        default: false,
+        boolean: true,
+        alias: "q",
+      })
+      yargs.option("verbose", {
+        describe: "verbose output",
+        default: false,
+        boolean: true,
+        alias: "v",
+      })
+      yargs.option("plugins", {
+        describe: "use plugins",
+        default: false,
+        boolean: true,
+        alias: "P",
+      })
     },
     async (args) => {
       if (args.file) {
         args.prompt = fs.readFileSync(args.prompt, "utf8")
       }
       if (!MODELS[args.model]) {
-        console.log(`Model ${args.model} not found`)
+        if (!args.quiet) console.log(`Model ${args.model} not found`)
         process.exit(1)
       }
 
-      switch (MODELS[args.model].kind) {
-        case "openai": {
-          process.stdout.write(args.prompt.gray)
-          const completion = (
-            await openai.createCompletion(
-              {
-                model: args.model,
-                prompt: args.prompt,
-                max_tokens: args["max-tokens"],
-                temperature: args.temperature,
-              },
-              {
-                timeout: 1000 * 60 * 60,
-              }
-            )
-          ).data.choices[0].text
-          process.stdout.write(" " + completion)
-          if (!completion.endsWith("\n")) process.stdout.write("\n")
-          break
+      const getCompletion = async (args) => {
+        let print = (data) => process.stdout.write(data)
+        if (args.silent === true) print = () => {}
+        let completion
+        switch (MODELS[args.model].kind) {
+          case "openai":
+            if (!args.quiet) print(args.prompt.gray)
+            completion = (
+              await openai.createCompletion(
+                {
+                  model: args.model,
+                  prompt: args.prompt,
+                  max_tokens: args["max-tokens"],
+                  temperature: args.temperature,
+                },
+                {
+                  timeout: 1000 * 60 * 60,
+                }
+              )
+            ).data.choices[0].text
+            if (!args.quiet) print(" ")
+            print(completion)
+            if (completion && !completion.endsWith("\n")) print("\n")
+            break
+          case "openai-chat":
+            if (!args.quiet) print(`System: ${args.system}\n`.gray)
+            if (!args.quiet) print(`User: ${args.prompt}`.gray)
+            completion = (
+              await openai.createChatCompletion(
+                {
+                  model: args.model,
+                  max_tokens: args["max-tokens"],
+                  temperature: args.temperature,
+                  messages: [
+                    {
+                      role: "system",
+                      content: args.system,
+                    },
+                    {
+                      role: "user",
+                      content: args.prompt,
+                    },
+                  ],
+                },
+                {
+                  timeout: 1000 * 60 * 60,
+                }
+              )
+            ).data.choices[0].message.content
+            if (!args.quiet) print("\nAssistant: ")
+            print(completion)
+            // add \n if missing
+            if (completion && !completion.endsWith("\n")) print("\n")
+            break
+          case "bing-creative":
+            initBing()
+            if (!args.quiet) print(`User: ${args.prompt}`.gray)
+            completion = (
+              await bing.sendMessage(args.prompt, {
+                variant: "Creative",
+              })
+            ).text
+            if (!args.quiet) print(`\nBing: `)
+            print(completion)
+            if (completion && !completion.endsWith("\n")) print("\n")
+            break
+          case "bing":
+          case "bing-balanced":
+            initBing()
+            if (!args.quiet) print(`User: ${args.prompt}`.gray)
+            completion = (
+              await bing.sendMessage(args.prompt, {
+                variant: "Balanced",
+              })
+            ).text
+            if (!args.quiet) print(`\nBing: `)
+            print(completion)
+            if (!completion.endsWith("\n")) print("\n")
+            break
+          case "bing-precise":
+            initBing()
+            print(`User: ${args.prompt}`.gray)
+            completion = (
+              await bing.sendMessage(args.prompt, {
+                variant: "Precise",
+              })
+            ).text
+            if (!args.quiet) print(`\nBing: `)
+            print(completion)
+            if (!completion.endsWith("\n")) print("\n")
+            break
+          case "llama":
+            completion = await runLlama(args.prompt)
+            if (!completion) {
+              console.log(`${args.model} failed to generate a response.`.yellow)
+              return
+            }
+            if (!args.quiet) print(`${args.prompt} `.gray)
+            print(completion)
+            break
+          default:
+            console.log(`model ${args.model} is known but not supported yet`)
+            process.exit(1)
+            break
         }
-        case "openai-chat": {
-          process.stdout.write(`System: ${args.system}\n`.gray)
-          process.stdout.write(`User: ${args.prompt}`.gray)
-          const completion = (
-            await openai.createChatCompletion(
-              {
-                model: args.model,
-                max_tokens: args["max-tokens"],
-                temperature: args.temperature,
-                messages: [
-                  {
-                    role: "system",
-                    content: args.system,
-                  },
-                  {
-                    role: "user",
-                    content: args.prompt,
-                  },
-                ],
-              },
-              {
-                timeout: 1000 * 60 * 60,
-              }
-            )
-          ).data.choices[0].message.content
-          process.stdout.write("\nAssistant: " + completion)
-          // add \n if missing
-          if (!completion.endsWith("\n")) process.stdout.write("\n")
-          break
-        }
-        case "bing-creative": {
-          initBing()
-          process.stdout.write(`User: ${args.prompt}`.gray)
-          const res = await bing.sendMessage(args.prompt, {
-            variant: "Creative",
+        return completion
+      }
+
+      if (!args.plugins) {
+        await getCompletion(args)
+        return
+      } else {
+        if (!args.quiet) console.log("Plugins enabled")
+
+        const compileAndRun = async (promptFilePath, variables) => {
+          const file = fs.readFileSync(promptFilePath, "utf8")
+          const regex = /<\|\$(.*)\|>/g
+          const compiled = file.replace(regex, (_, variable) => {
+            if (variables[variable]) {
+              return variables[variable]
+            } else {
+              throw new Error(`Variable ${variable} not found`)
+            }
           })
-          const completion = res.text
-          process.stdout.write(`\nBing: `)
-          process.stdout.write(completion)
-          if (!completion.endsWith("\n")) process.stdout.write("\n")
-          break
-        }
-        case "bing":
-        case "bing-balanced": {
-          initBing()
-          process.stdout.write(`User: ${args.prompt}`.gray)
-          const res = await bing.sendMessage(args.prompt, {
-            variant: "Balanced",
+          return await getCompletion({
+            ...args,
+            prompt: compiled,
+            silent: !args.verbose,
           })
-          const completion = res.text
-          process.stdout.write(`\nBing: `)
-          process.stdout.write(completion)
-          if (!completion.endsWith("\n")) process.stdout.write("\n")
-          break
         }
-        case "bing-precise": {
-          initBing()
-          process.stdout.write(`User: ${args.prompt}`.gray)
-          const res = await bing.sendMessage(args.prompt, {
-            variant: "Precise",
-          })
-          const completion = res.text
-          process.stdout.write(`\nBing: `)
-          process.stdout.write(completion)
-          if (!completion.endsWith("\n")) process.stdout.write("\n")
-          break
-        }
-        case "llama": {
-          const completion = await runLlama(args.prompt)
-          if (!completion) {
-            console.log(`${args.model} failed to generate a response.`.yellow)
-            return
+
+        const prompt = args.prompt
+        const output = await compileAndRun(
+          `./plugins/plugin_prompt--step1.txt`,
+          {
+            prompt,
           }
-          process.stdout.write(`${args.prompt}`.gray)
-          process.stdout.write("\n" + completion)
-          break
+        )
+        // <|plugin:id.function|>payload<|end|>
+        const regexp = /<\|(.*):(.*)\.(.*)\|>(.*)<\|end\|>/g
+        if (!output.match(regexp)) {
+          console.log(output)
+          process.exit(0)
         }
-        default:
-          console.log(`model ${args.model} is known but not supported yet`)
+
+        const [_, __, plugin, fn, payload] = regexp.exec(output)
+        console.log(`${`Using plugin: ${plugin}.${fn}`.blue} ${payload}`)
+
+        const curlCommand = await compileAndRun(
+          `./plugins/plugin_prompt--step2.txt`,
+          {
+            step1: JSON.stringify({ plugin, fn, payload }),
+          }
+        )
+        if (
+          !curlCommand.trim().startsWith("curl") ||
+          !curlCommand.trim().split("\n").length > 1
+        ) {
+          console.log("panic: does not look like a curl command")
+          console.log("\n\n\t" + curlCommand.trim() + "\n\n")
           process.exit(1)
-          break
+        }
+        const result = child_process
+          .execSync(
+            curlCommand.trim() + " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
+          )
+          .toString()
+
+        const finalOutput = await compileAndRun(
+          `./plugins/plugin_prompt--step3.txt`,
+          {
+            information: JSON.stringify({
+              plugin,
+              fn,
+              payload,
+              output: result,
+            }),
+            prompt,
+          }
+        )
+
+        console.log(finalOutput)
       }
     }
   )

@@ -1,0 +1,128 @@
+## Knowledge base
+
+### Plugin 1 : WebPilot
+
+```
+{
+        "schema_version": "v1",
+        "name_for_human": "WebPilot",
+        "name_for_model": "web_pilot",
+        "description_for_human": "Browse & QA Webpage/PDF/Data. Generate articles, from one or more URLs.",
+        "description_for_model": "This tool allows users to provide a URL(or URLs) and optionally requests for interacting with, extracting specific information or how to do with the content from the URL. Requests may include rewrite, translate, and others. If there any requests, when accessing the /api/visit-web endpoint, the parameter 'user_has_request' should be set to 'true. And if there's no any requests, 'user_has_request' should be set to 'false'.",
+        "auth": {
+                "type": "none"
+        },
+        "api": {
+                "type": "openapi",
+                "url": "https://webreader.webpilotai.com/openapi.yaml",
+                "is_user_authenticated": false
+        },
+        "logo_url": "https://webreader.webpilotai.com/logo.png",
+        "contact_email": "dev@webpilot.ai",
+        "legal_info_url": "https://webreader.webpilotai.com/legal_info.html"
+}
+
+```
+
+```
+openapi: 3.0.1
+info:
+  title: web_pilot
+  description: This plugin allows users to input a URL, retrieves the web page content, and returns a comprehensible summary of it.
+  version: 'v1'
+servers:
+  - url: https://webreader.webpilotai.com
+paths:
+  /api/visit-web:
+    post:
+      operationId: visitWebPage
+      summary: visit web page
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/visitWebPageError'
+components:
+  schemas:
+    visitWebPageResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of this web page
+        content:
+          type: string
+          description: The content of the web page's url to be summarized
+        meta:
+          type: object
+          description: The Html meta info of the web page
+        links:
+          type: array
+          description: Some links in the web page
+          items:
+            type: string
+        todo:
+          type: array
+          description: what to do with the content
+          items:
+            type: string
+        tips:
+          type: array
+          description: Tips placed at the end of the answer
+          items:
+            type: string
+        rules:
+          description: Adherence is required when outputting content.
+          items:
+            type: string
+
+    visitWebPageRequest:
+      type: object
+      properties:
+        link:
+          type: string
+          description: The web page's url to visit and retrieve content from.
+        user_has_request:
+          type: boolean
+          description: Whether user has any requests.
+
+    visitWebPageError:
+      type: object
+      properties:
+        code:
+          type: string
+          description: error code
+        message:
+          type: string
+          description: error message
+        detail:
+          type: string
+          description: error detail
+```
+
+
+## Role
+
+You are the best Large Language Model. You are plugged to various plugins allowing you to perform various tasks.
+Based on given plugin, function and payload, output the curl command.
+Follow the instructions:
+1. Only output the command in plain text. Refrain from any explanation, comment or style.
+2. Only output the command in plain text. Example output: curl https://google.com
+
+<|$step1|>
+
+## Output
