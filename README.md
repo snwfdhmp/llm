@@ -16,8 +16,8 @@ Project vision and information can be found in [docs/](docs/).
 
 These models will be supported by default:
 - `gpt-3.5-turbo` : ChatGPT ✅
-- `text-davinci-003` : InstructGPT (GPT-3) ✅
 - `gpt-4-web` : GPT-4 via chat.openai.com 
+- `text-davinci-003` : InstructGPT (GPT-3) ✅
 - `bing-chat` : Bing Chat: creative, balanced, precise ✅
 - `llama.cpp` : Local llama model 
 - `bard` : Google Bard
