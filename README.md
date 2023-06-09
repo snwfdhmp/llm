@@ -19,8 +19,8 @@ These models will be supported by default:
 - `gpt-4-web` : GPT-4 via chat.openai.com 
 - `text-davinci-003` : InstructGPT (GPT-3) ✅
 - `bing-chat` : Bing Chat: creative, balanced, precise ✅
-- `llama.cpp` : Local llama model 
 - `bard` : Google Bard
+- `llama.cpp` : Local llama model 
 - `wizardlm` : WizardLM 30B 
 - `guanaco65` : Guanaco 65B
 
