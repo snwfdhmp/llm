@@ -62,6 +62,36 @@ text-davinci-003	2021-10-10 	native 		InstructGPT by OpenAI
 llama				2021-10-10 	snwfdhmp	Meta's Llama
 ```
 
+## Models
+
+These models are supported by default:
+- `gpt-3.5-turbo` : ChatGPT
+- `gpt-4-web` : GPT-4 via chat.openai.com
+- `bing-chat` : Bing Chat: creative, balanced, precise
+- `llama.cpp` : Local llama model
+- `bard` : Google Bard
+- `wizardlm` : WizardLM 30B
+- `guanaco65` : Guanaco 65B
+
+Other models can be installed using the `--add` option.
+
+## LLM Plugins : Add any LLM
+
+```
+kind: llm/plugin/v1
+annotations:
+    name: vicuna
+    author: lmsys
+    description: A vicuna model
+    createdAt: 12307919353
+model:
+    install: |
+        git clone ...
+        cd ...
+
+    run: vicuna.sh
+```
+
 ## Roadmap
 
 - Use npm modules for extensions, simpler, more standard, and easier to maintain.
