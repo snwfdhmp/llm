@@ -77,7 +77,7 @@ reads prompt from file
 
 Incoming:
 
-- Remember sessions
+- Conversation system (remember past messages)
 - Install 3rd party models
 
 ```
