@@ -23,6 +23,7 @@ These models will be supported by default:
 - `llama.cpp` : Local llama model 
 - `wizardlm` : WizardLM 30B 
 - `guanaco65` : Guanaco 65B
+- `gpt-2` : GPT-2 by OpenAI ✅
 
 Other models can be installed using the `--add` option.
 

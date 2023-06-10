@@ -199,6 +199,11 @@ yargs(hideBin(process.argv))
             completion = await gpt2.completion(args)
             print(completion)
             break
+          case "gpt-2-xl":
+            if (!args.quiet) print(`${args.prompt} `.gray)
+            completion = await gpt2.completion(args)
+            print(completion)
+            break
           default:
             console.log(`model ${args.model} is known but not supported yet`)
             process.exit(1)
