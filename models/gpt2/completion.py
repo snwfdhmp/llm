@@ -20,7 +20,5 @@ input_ids = tokenizer.encode(args.prompt, return_tensors="pt")
 attention_mask = torch.ones(input_ids.shape, dtype=torch.long, device=input_ids.device)
 output = model.generate(input_ids, attention_mask=attention_mask, max_length=args.max_length, do_sample=True, top_p=args.top_p, top_k=args.top_k, pad_token_id=tokenizer.eos_token_id)
 
-# print text
-# tokenizer.decode(output[0], skip_special_tokens=True)
 only_output =tokenizer.batch_decode(output[:, input_ids.shape[1]:])[0]
 print(only_output)
