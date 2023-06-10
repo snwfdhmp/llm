@@ -24,6 +24,7 @@ These models will be supported by default:
 - `wizardlm` : WizardLM 30B 
 - `guanaco65` : Guanaco 65B
 - `gpt-2` : GPT-2 by OpenAI ✅
+- `bert` : BERT by Google
 
 Other models can be installed using the `--add` option.
 
