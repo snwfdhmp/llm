@@ -7,8 +7,12 @@ import { BingChat } from "bing-chat"
 import fs from "fs"
 import dotenv from "dotenv"
 import { runLlama } from "./models/llama.js"
+import gpt2 from "./models/gpt2/model.js"
 import child_process from "child_process"
 dotenv.config()
+
+// directory of this file
+const __dirname = new URL(".", import.meta.url).pathname
 
 let bing
 const initBing = () => {
@@ -57,7 +61,7 @@ yargs(hideBin(process.argv))
         alias: "T",
       })
       yargs.option("file", {
-        describe: "./path/to/prompt.txt",
+        describe: "read prompt as ./path/to/file.txt",
         default: false,
         boolean: true,
         alias: "f",
@@ -190,6 +194,11 @@ yargs(hideBin(process.argv))
             if (!args.quiet) print(`${args.prompt} `.gray)
             print(completion)
             break
+          case "gpt-2":
+            if (!args.quiet) print(`${args.prompt} `.gray)
+            completion = await gpt2.completion(args)
+            print(completion)
+            break
           default:
             console.log(`model ${args.model} is known but not supported yet`)
             process.exit(1)
@@ -223,7 +232,7 @@ yargs(hideBin(process.argv))
 
         const prompt = args.prompt
         const output = await compileAndRun(
-          `./plugins/plugin_prompt--step1.txt`,
+          `${__dirname}/plugins/plugin_prompt--step1.txt`,
           {
             prompt,
           }
@@ -239,7 +248,7 @@ yargs(hideBin(process.argv))
         console.log(`${`Using plugin: ${plugin}.${fn}`.blue} ${payload}`)
 
         const curlCommand = await compileAndRun(
-          `./plugins/plugin_prompt--step2.txt`,
+          `${__dirname}/plugins/plugin_prompt--step2.txt`,
           {
             step1: JSON.stringify({ plugin, fn, payload }),
           }
@@ -259,7 +268,7 @@ yargs(hideBin(process.argv))
           .toString()
 
         const finalOutput = await compileAndRun(
-          `./plugins/plugin_prompt--step3.txt`,
+          `${__dirname}/plugins/plugin_prompt--step3-alt.txt`,
           {
             information: JSON.stringify({
               plugin,

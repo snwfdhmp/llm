@@ -48,9 +48,11 @@ export const MODELS = {
   "text-embedding-ada-002": { kind: "openai" },
   "whisper-1": { kind: "openai" },
   "gpt-3.5-turbo": { kind: "openai-chat" },
-  bing: { kind: "bing" },
+  bing: { kind: "bing-balanced" },
   "bing-creative": { kind: "bing-creative" },
   "bing-balanced": { kind: "bing-balanced" },
   "bing-precise": { kind: "bing-precise" },
   llama: { kind: "llama" },
+  "gpt-2": { kind: "gpt-2" },
+  gpt2: { kind: "gpt-2" },
 }
