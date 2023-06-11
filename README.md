@@ -36,22 +36,14 @@ Hello there! How can I assist you today?
 
 ## Features
 
-- Prompt ✅
-- Models parameterization: _temperature, max-length, top-p, top-k, ..._ ✅ 
-- ChatGPT Plugins 🔄 _web-pilot working, global plugin system in development_
-- Use files as prompts. ✅
-- Prompt chaining: Call other prompts inside prompts. ✅
-- Prompt templating: Use variables in prompts. 🔄 _incoming_
-- Sure! I can convert the provided information into a table format for you:
-
 | Feature                 | Status          |Comment          |
 |-------------------------|-----------------|---|
 | Prompt                  | ✅              |Prompt model with default parameters|
-| Parameterization | ✅              |Set any model parameters|
+| Parameterization | ✅              |_temperature, max-length, top-p, top-k, ..._|
 | ChatGPT Plugins                 | 🔄 | Use chatGPT plugins. web-pilot working, global plugin system in development|
 | Use files    | ✅              |Query models using prompt files|
-| Prompt chaining         | ✅              |Chain prompts using templating system|
-| Prompt templating       | 🔄  |incoming   |
+| Prompt chaining         | ✅              |Call prompts like functions|
+| Prompt templating       | 🔄  |Use variables in prompt files |
 
 Please note that the "Status" column indicates the current status of each feature, with ✅ representing "implemented" and 🔄 representing "in progress."
 
