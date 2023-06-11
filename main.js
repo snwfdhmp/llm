@@ -84,6 +84,12 @@ yargs(hideBin(process.argv))
         boolean: true,
         alias: "P",
       })
+      yargs.option("chain", {
+        describe: "use chaining",
+        default: false,
+        boolean: true,
+        alias: "C",
+      })
     },
     async (args) => {
       if (args.file) {
@@ -212,10 +218,27 @@ yargs(hideBin(process.argv))
         return completion
       }
 
-      if (!args.plugins) {
-        await getCompletion(args)
-        return
-      } else {
+      if (args.chain) {
+        const processFile = async (file, silent) => {
+          // detect <|@var|> pattern
+          const matches = file.match(/<\|@.*?\|>/g)
+          const unique = [...new Set(matches)]
+          for (let i = 0; i < unique.length; i++) {
+            // process subfile
+            const output = await processFile(
+              `./${unique[i].slice(3, -2)}.txt`,
+              true
+            )
+            file = file.replace(unique[i], output)
+          }
+          return await getCompletion({
+            ...args,
+            prompt: file,
+            silent: silent && args.quiet,
+          })
+        }
+        await processFile(args.prompt, false)
+      } else if (args.plugins) {
         if (!args.quiet) console.log("Plugins enabled")
 
         const compileAndRun = async (promptFilePath, variables) => {
@@ -286,6 +309,9 @@ yargs(hideBin(process.argv))
         )
 
         console.log(finalOutput)
+      } else {
+        await getCompletion(args)
+        return
       }
     }
   )

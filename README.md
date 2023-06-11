@@ -2,13 +2,13 @@
 
 > This is still a work in progress. Features are subject to change and not all features are implemented yet.
 
+Manipulate any LLM from command line. Prompt chaining, chatgpt plugins, templating, and more.
+
 ## Concept
 
-llm is a CLI that allows you to use any LLM from the command line.
-It is built as a frontend that is not tied to any specific LLM, and can be used with any LLM.
-Its goal is to simplify querying LLMs from the command line or using scripts.
+llm is a CLI & library to manipulate any large language model from the command line.
 
-Project vision and information can be found in [docs/](docs/).
+More information in [docs](docs/).
 
 ## Models
 
@@ -31,7 +31,14 @@ Project vision and information can be found in [docs/](docs/).
 | bard                         | Google Bard                                     | 🔄      |
 | orca                         | Orca by Microsoft                               | 🔄     |
 
-Other models can be installed using the `--install` command.
+[Other models can be installed](#add-any-model) using the `--install` command.
+
+## Features
+
+- Plugins: Use chatGPT plugins. 🔄 _web-pilot working, global plugin system in development_
+- Use files as prompts. ✅
+- Prompt chaining: Call other prompts inside prompts. ✅
+- Prompt templating: Use variables in prompts. 🔄 _incoming_
 
 ## Getting started
 
