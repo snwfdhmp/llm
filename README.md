@@ -4,7 +4,7 @@
 
 Manipulate any large language model from the command line.
 
-More information in [docs](docs/).
+Learn more in [docs](docs/).
 
 ```
 $ llm "Hello world."
