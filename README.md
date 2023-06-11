@@ -2,7 +2,7 @@
 
 > This is still a work in progress. Features are subject to change and not all features are implemented yet.
 
-Manipulate any large language model from the command line.
+Manipulate any language model from the command line.
 
 Learn more in [docs](docs/).
 
