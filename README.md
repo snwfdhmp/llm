@@ -28,9 +28,9 @@ Hello there! How can I assist you today?
 | gpt-2                        | ✅      | GPT-2 by OpenAI                                 |
 | bloom560                     | ✅      | BigScience Open-science Open-access             |
 | resnet-50                    | ✅      | Resnet by Microsoft                             |
-| HuggingFace 🤗 models        | ✅      | every `text-generation` model |
 | bard                         | 🔄      | Google Bard                                     |
 | orca                         | 🔄     | Orca by Microsoft                               |
+| ... HuggingFace 🤗 models        | ✅      | every `text-generation` model |
 
 [Other models can be installed](#add-any-model) using the `--install` command.
 
