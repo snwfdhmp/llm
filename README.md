@@ -1,6 +1,6 @@
 # llm : use any Language Model from the command line
 
-Manipulate any language model from the command line.
+#### Manipulate any language model from the command line.
 
 Learn more in [docs](docs/).
 
