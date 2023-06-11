@@ -31,7 +31,7 @@ Project vision and information can be found in [docs/](docs/).
 | bard                         | Google Bard                                     | 🔄      |
 | orca                         | Orca by Microsoft                               | 🔄     |
 
-Other models can be installed using the `--add` option.
+Other models can be installed using the `--install` command.
 
 ## Getting started
 
@@ -77,20 +77,25 @@ $ llm "what is the meaning of life?"
 Use a specific model
 
 ```
-$ llm -m gpt-3.5-turbo "what is the meaning of life?"
+$ llm -m bing-creative "what is the meaning of life?"
+```
+
+Use custom parameters
+
+```
+$ llm --max-length 512 --temperature 1 --top-p 0.9 --top-k 60 "follow the instructions."
 ```
 
 List available models
 
 ```
-
 $ llm ls
 Name				LastUsedAt	Author 		Description
-text-davinci-003	2021-10-10 	native 		InstructGPT by OpenAI
-gpt-3.5-turbo   	2021-10-10 	native 		ChatGPT by OpenAI
-gpt-4-web          	2021-10-10 	native 		GPT-4 by OpenAI via chatGPT
-llama   			2021-10-10 	snwfdhmp	Meta's Llama
-bard       			2021-10-10 	samwitt_	Google Bard
+text-davinci-003	2021-10-10 	OpenAI 		InstructGPT by OpenAI
+gpt-3.5-turbo   	2021-10-10 	OpenAI 		ChatGPT by OpenAI
+gpt-4-web          	2021-10-10 	OpenAI 		GPT-4 by OpenAI via chatGPT
+llama   			2021-10-10 	Meta    	Meta's Llama
+bard       			2021-10-10 	Google  	Google Bard
 ```
 
 Use files as prompts
@@ -104,11 +109,12 @@ Incoming:
 
 - Conversation system (remember past messages)
 - Install 3rd party models
+- Chaining
 
 ```
 $ llm -s session_name "what is the meaning of life?"
 remembers past messages
-$ llm --add github.com/snwfhdmp/llm-descriptor-llama
+$ llm --install github.com/snwfhdmp/llm-descriptor-llama
 downloads model from github
 ```
 
