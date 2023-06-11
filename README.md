@@ -24,7 +24,7 @@ More information in [docs](docs/).
 | gpt-2                        | ✅      | GPT-2 by OpenAI                                 |
 | bloom560                     | ✅      | BigScience Open-science Open-access             |
 | resnet-50                    | ✅      | Resnet by Microsoft                             |
-| HuggingFace 🤗 models | ✅      | every `text-generation` model |
+| HuggingFace 🤗 models        | ✅      | every `text-generation` model |
 | bard                         | 🔄      | Google Bard                                     |
 | orca                         | 🔄     | Orca by Microsoft                               |
 ```
