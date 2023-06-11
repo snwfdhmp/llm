@@ -14,9 +14,6 @@ Project vision and information can be found in [docs/](docs/).
 
 > Some models are still being added. This is a work in progress.
 
-These models will be supported by default:
-Here is the table you requested:
-
 | Model Name                   | Description                                     | Status |
 |------------------------------|-------------------------------------------------|--------|
 | gpt-3.5-turbo                | ChatGPT                                         | ✅      |
