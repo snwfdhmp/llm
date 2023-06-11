@@ -1,6 +1,6 @@
 # llm : use any Language Model from the command line
 
-> This project is still in development. Production use is not recommended.
+> This project is still in development. Production use is not recommended yet.
 
 Manipulate any language model from the command line.
 
