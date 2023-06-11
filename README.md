@@ -85,7 +85,7 @@ $ llm "what is the meaning of life?"
 Use a specific model
 
 ```
-$ llm -m bing-creative "what is the meaning of life?"
+$ llm -m bing-creative "find project ideas to learn react"
 ```
 
 Use custom parameters
