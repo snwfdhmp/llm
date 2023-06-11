@@ -71,7 +71,7 @@ $ llm -m gpt-3.5-turbo "Tell me a joke"
 
 ## Usage
 
-> Still in development
+> This project is still a work in progress. Features are subject to change and not all features are implemented yet.
 
 Simple prompting with defaults parameters
 
