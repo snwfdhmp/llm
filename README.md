@@ -10,7 +10,6 @@ More information in [docs](docs/).
 
 > Some models are still being added. This is a work in progress.
 
-```
 | Model Name                   | Status | Description                                     |
 |------------------------------|--------|-------------------------------------------------|
 | gpt-3.5-turbo                | ✅      | ChatGPT                                         |
@@ -27,7 +26,6 @@ More information in [docs](docs/).
 | HuggingFace 🤗 models        | ✅      | every `text-generation` model |
 | bard                         | 🔄      | Google Bard                                     |
 | orca                         | 🔄     | Orca by Microsoft                               |
-```
 
 [Other models can be installed](#add-any-model) using the `--install` command.
 
