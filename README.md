@@ -7,7 +7,7 @@ Manipulate any large language model from the command line.
 More information in [docs](docs/).
 
 ```
-$ llm "Hello world."
+$ llm -m chatgpt "Hello world."
 Hello there! How can I assist you today?
 ```
 
