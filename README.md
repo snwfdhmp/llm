@@ -77,19 +77,19 @@ $ llm -m gpt-3.5-turbo "Tell me a joke"
 $ llm "what is the meaning of life?"
 ```
 
-Use a specific model
+> Use a specific model
 
 ```
 $ llm -m bing-creative "find project ideas to learn react"
 ```
 
-Use custom parameters
+> Use custom parameters
 
 ```
 $ llm --max-length 512 --temperature 1 --top-p 0.9 --top-k 60 "follow the instructions."
 ```
 
-List available models
+> List available models
 
 ```
 $ llm ls
@@ -102,7 +102,7 @@ bard                2021-10-10     Google      Google Bard
 ...
 ```
 
-Use files as prompts
+> Use files as prompts
 
 ```
 $ llm -f ./prompt.txt
