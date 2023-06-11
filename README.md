@@ -38,7 +38,7 @@ Hello there! How can I assist you today?
 
 - Prompt ✅
 - Models parameterization: _temperature, max-length, top-p, top-k, ..._ ✅ 
-- Plugins: Use chatGPT plugins. 🔄 _web-pilot working, global plugin system in development_
+- ChatGPT Plugins 🔄 _web-pilot working, global plugin system in development_
 - Use files as prompts. ✅
 - Prompt chaining: Call other prompts inside prompts. ✅
 - Prompt templating: Use variables in prompts. 🔄 _incoming_
@@ -46,10 +46,10 @@ Hello there! How can I assist you today?
 
 | Feature                 | Status          |Comment          |
 |-------------------------|-----------------|---|
-| Prompt                  | ✅              ||
-| Models parameterization | ✅              ||
-| Plugins                 | 🔄 | web-pilot working, global plugin system in development|
-| Use files as prompts    | ✅              ||
+| Prompt                  | ✅              |Prompt model with default parameters|
+| Parameterization | ✅              |Set any model parameters|
+| ChatGPT Plugins                 | 🔄 | Use chatGPT plugins. web-pilot working, global plugin system in development|
+| Use files    | ✅              |Query models using prompt files|
 | Prompt chaining         | ✅              ||
 | Prompt templating       | 🔄  |incoming   |
 
