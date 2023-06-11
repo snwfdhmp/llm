@@ -191,4 +191,5 @@ Project vision and information can be found in [docs](docs/).
 ## Contributing
 
 Contributions are welcome. Please open an issue or a pull request.
+
 Join the team at [discord.gg/ccDghPeAT9](https://discord.gg/ccDghPeAT9).
