@@ -26,7 +26,7 @@ Project vision and information can be found in [docs/](docs/).
 | wizardlm-13b-uncensored      | WizardLM 30B                                    | ✅      |
 | guanaco-65b-gptq             | Guanaco 65B                                     | ✅      |
 | gpt-2                        | GPT-2 by OpenAI                                 | ✅      |
-| orca                         | Orca by Microsoft                               | ❔ when released     |
+| orca                         | Orca by Microsoft                               | 🔄     |
 | bloom560                     | BigScience Open-science Open-access             | ✅      |
 | resnet-50                    | Resnet by Microsoft                             | ✅      |
 | HuggingFace 🤗 models | every `text-generation` model | ✅      |
