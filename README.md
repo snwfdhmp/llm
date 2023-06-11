@@ -6,6 +6,11 @@ Manipulate any large language model from the command line.
 
 More information in [docs](docs/).
 
+```
+$ llm "Hello world."
+Hello there! How can I assist you today?
+```
+
 ## Models
 
 > Some models are still being added. This is a work in progress.
