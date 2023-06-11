@@ -32,7 +32,6 @@ Project vision and information can be found in [docs/](docs/).
 | HuggingFace 🤗 models | every `text-generation` model | ✅      |
 
 The status symbols indicate the current availability or future release of the models.
-- 
 
 Other models can be installed using the `--add` option.
 
