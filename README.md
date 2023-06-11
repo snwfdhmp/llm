@@ -50,7 +50,7 @@ Hello there! How can I assist you today?
 | Parameterization | ✅              |Set any model parameters|
 | ChatGPT Plugins                 | 🔄 | Use chatGPT plugins. web-pilot working, global plugin system in development|
 | Use files    | ✅              |Query models using prompt files|
-| Prompt chaining         | ✅              ||
+| Prompt chaining         | ✅              |Chain prompts using templating system|
 | Prompt templating       | 🔄  |incoming   |
 
 Please note that the "Status" column indicates the current status of each feature, with ✅ representing "implemented" and 🔄 representing "in progress."
