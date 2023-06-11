@@ -45,8 +45,6 @@ Hello there! How can I assist you today?
 | Prompt chaining         | ✅              |Call prompts like functions|
 | Prompt templating       | 🔄  |Use variables in prompt files |
 
-Please note that the "Status" column indicates the current status of each feature, with ✅ representing "implemented" and 🔄 representing "in progress."
-
 ## Getting started
 
 ```
