@@ -63,13 +63,6 @@ alias llm="node $(pwd)/main.js"
 
 > add it to your `.bashrc` or `.zshrc` to make it permanent.
 
-```
-export OPENAI_API_KEY=""
-export BING_COOKIE=""
-```
-
-> add it to your `.bashrc` or `.zshrc` to make it permanent.
-
 **You're ready to go ! Try:**
 
 ```
