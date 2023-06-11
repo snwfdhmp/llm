@@ -1,4 +1,4 @@
-# llm : use any LLM from the command line
+# llm : use any Language Model from the command line
 
 > This is still a work in progress. Features are subject to change and not all features are implemented yet.
 
