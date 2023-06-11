@@ -15,20 +15,26 @@ Project vision and information can be found in [docs/](docs/).
 > Some models are still being added. This is a work in progress.
 
 These models will be supported by default:
-- `gpt-3.5-turbo` : ChatGPT ✅
-- `gpt-4-web` : GPT-4 via chat.openai.com 🔄 _coming next_
-- `text-davinci-003` : InstructGPT (GPT-3) ✅
-- `bing-chat` : Bing Chat: creative, balanced, precise ✅
-- `bert` : BERT by Google ✅
-- `bard` : Google Bard 🔄 _coming next_
-- `llama-7b-hf` : Meta llama model ✅
-- `wizardlm-13b-uncensored` : WizardLM 30B ✅
-- `guanaco-65b-gptq` : Guanaco 65B ✅
-- `gpt-2` : GPT-2 by OpenAI ✅
-- `orca` : Orca by Microsoft ❔ _added when released_
-- `bloom560` : BigScience Open-science Open-access ✅
-- `resnet-50` : Resnet by Microsoft ✅
-- all `text-generation` models from [HuggingFace 🤗](https://huggingface.co/models)
+Here is the table you requested:
+
+| Model Name                   | Description                                     | Status |
+|------------------------------|-------------------------------------------------|--------|
+| gpt-3.5-turbo                | ChatGPT                                         | ✅      |
+| gpt-4-web                    | GPT-4 via chat.openai.com                       | 🔄      |
+| text-davinci-003             | InstructGPT (GPT-3)                             | ✅      |
+| bing-chat                    | Bing Chat: creative, balanced, precise          | ✅      |
+| bert                         | BERT by Google                                  | ✅      |
+| bard                         | Google Bard                                     | 🔄      |
+| llama-7b-hf                  | Meta llama model                                | ✅      |
+| wizardlm-13b-uncensored      | WizardLM 30B                                    | ✅      |
+| guanaco-65b-gptq             | Guanaco 65B                                     | ✅      |
+| gpt-2                        | GPT-2 by OpenAI                                 | ✅      |
+| orca                         | Orca by Microsoft                               | ❔      |
+| bloom560                     | BigScience Open-science Open-access             | ✅      |
+| resnet-50                    | Resnet by Microsoft                             | ✅      |
+| All text-generation models from HuggingFace | Various text generation models | ✅      |
+
+The status symbols indicate the current availability or future release of the models.
 - 
 
 Other models can be installed using the `--add` option.
