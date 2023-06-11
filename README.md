@@ -15,7 +15,7 @@ Hello there! How can I assist you today?
 
 > Some models are still being added. This is a work in progress.
 
-| Model Name                   |  | Description                                     |
+| Model Name                   | Status | Description                                     |
 |------------------------------|--------|-------------------------------------------------|
 | gpt-3.5-turbo                | ✅      | ChatGPT                                         |
 | gpt-4-web                    | 🔄      | GPT-4 via chat.openai.com                       |
