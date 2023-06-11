@@ -29,7 +29,7 @@ Project vision and information can be found in [docs/](docs/).
 | orca                         | Orca by Microsoft                               | ❔      |
 | bloom560                     | BigScience Open-science Open-access             | ✅      |
 | resnet-50                    | Resnet by Microsoft                             | ✅      |
-| All text-generation models from HuggingFace | Various text generation models | ✅      |
+| all text-generation models from HuggingFace 🤗 | Supported | ✅      |
 
 The status symbols indicate the current availability or future release of the models.
 - 
