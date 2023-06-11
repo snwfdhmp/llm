@@ -71,7 +71,7 @@ $ llm -m gpt-3.5-turbo "Tell me a joke"
 
 ## Usage
 
-Simple prompting with defaults parameters
+> Simple prompting with defaults parameters
 
 ```
 $ llm "what is the meaning of life?"
