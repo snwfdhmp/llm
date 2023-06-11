@@ -98,7 +98,7 @@ List available models
 
 ```
 $ llm ls
-Name                LastUsedAt    Author       Description
+Name                LastUsedAt     Author      Description
 text-davinci-003    2021-10-10     OpenAI      InstructGPT by OpenAI
 gpt-3.5-turbo       2021-10-10     OpenAI      ChatGPT by OpenAI
 gpt-4-web           2021-10-10     OpenAI      GPT-4 by OpenAI via chatGPT
