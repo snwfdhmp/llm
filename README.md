@@ -15,21 +15,21 @@ Hello there! How can I assist you today?
 
 > Some models are still being added. This is a work in progress.
 
-| Model Name                   | Status | Description                                     |
+| Model Name                   | ℹ️ | Description                                     |
 |------------------------------|--------|-------------------------------------------------|
-| gpt-3.5-turbo                |   ✅      | ChatGPT                                         |
-| gpt-4-web                    |   🔄      | GPT-4 via chat.openai.com                       |
-| text-davinci-003             |   ✅      | InstructGPT (GPT-3)                             |
-| bing-chat                    |   ✅      | Bing Chat: creative, balanced, precise          |
-| bert                         |   ✅      | BERT by Google                                  |
-| llama-7b-hf                  |   ✅      | Meta llama model                                |
-| wizardlm-13b-uncensored      |   ✅      | WizardLM 30B                                    |
-| guanaco-65b-gptq             |   ✅      | Guanaco 65B                                     |
-| gpt-2                        |   ✅      | GPT-2 by OpenAI                                 |
-| bloom560                     |   ✅      | BigScience Open-science Open-access             |
-| resnet-50                    |   ✅      | Resnet by Microsoft                             |
-| bard                         |   🔄      | Google Bard                                     |
-| orca                         |   🔄     | Orca by Microsoft                               |
+| gpt-3.5-turbo                | ✅      | ChatGPT                                         |
+| gpt-4-web                    | 🔄      | GPT-4 via chat.openai.com                       |
+| text-davinci-003             | ✅      | InstructGPT (GPT-3)                             |
+| bing-chat                    | ✅      | Bing Chat: creative, balanced, precise          |
+| bert                         | ✅      | BERT by Google                                  |
+| llama-7b-hf                  | ✅      | Meta llama model                                |
+| wizardlm-13b-uncensored      | ✅      | WizardLM 30B                                    |
+| guanaco-65b-gptq             | ✅      | Guanaco 65B                                     |
+| gpt-2                        | ✅      | GPT-2 by OpenAI                                 |
+| bloom560                     | ✅      | BigScience Open-science Open-access             |
+| resnet-50                    | ✅      | Resnet by Microsoft                             |
+| bard                         | 🔄      | Google Bard                                     |
+| orca                         | 🔄     | Orca by Microsoft                               |
 | ... HuggingFace 🤗 models        | ✅      | every `text-generation` model |
 
 [Other models can be installed](#add-any-model) using the `--install` command.
