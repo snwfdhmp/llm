@@ -120,6 +120,8 @@ downloads model from github
 
 ## Add any model
 
+Any model can be plugged into `llm` using a model descriptor.
+
 **Example of a model descriptor which requires installation**
 
 ```yaml
