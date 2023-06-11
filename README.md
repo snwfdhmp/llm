@@ -104,6 +104,7 @@ gpt-3.5-turbo       2021-10-10     OpenAI      ChatGPT by OpenAI
 gpt-4-web           2021-10-10     OpenAI      GPT-4 by OpenAI via chatGPT
 llama               2021-10-10     Meta        Meta's Llama
 bard                2021-10-10     Google      Google Bard
+...
 ```
 
 Use files as prompts
