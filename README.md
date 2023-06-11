@@ -110,7 +110,6 @@ Use files as prompts
 
 ```
 $ llm -f ./prompt.txt
-reads prompt from file
 ```
 
 Incoming:
