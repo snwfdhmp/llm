@@ -113,7 +113,7 @@ Use files as prompts
 $ llm -f ./prompt.txt
 ```
 
-Incoming:
+_Incoming:_
 
 - Conversation system (remember past messages)
 - Install 3rd party models
