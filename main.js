@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 import { Configuration, OpenAIApi } from "openai"
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"

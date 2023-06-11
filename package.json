@@ -2,10 +2,13 @@
   "type": "module",
   "name": "llm",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "license": "MIT",
   "prettier": {
     "semi": false
+  },
+  "bin": {
+    "llm": "./main.js"
   },
   "dependencies": {
     "@llama-node/llama-cpp": "^0.1.6",
