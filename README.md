@@ -44,7 +44,6 @@ Hello there! How can I assist you today?
 - Prompt templating: Use variables in prompts. 🔄 _incoming_
 - Sure! I can convert the provided information into a table format for you:
 
-```
 | Feature                 | Status          |Comment          |
 |-------------------------|-----------------|---|
 | Prompt                  | ✅              ||
@@ -53,7 +52,6 @@ Hello there! How can I assist you today?
 | Use files as prompts    | ✅              ||
 | Prompt chaining         | ✅              ||
 | Prompt templating       | 🔄  |incoming   |
-```
 
 Please note that the "Status" column indicates the current status of each feature, with ✅ representing "implemented" and 🔄 representing "in progress."
 
