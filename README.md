@@ -1,6 +1,8 @@
 # llm : use any Language Model from the command line
 
-#### Manipulate any language model from the command line.
+> This project is in early development. It is not ready for production use.
+
+Manipulate any language model from the command line.
 
 Learn more in [docs](docs/).
 
