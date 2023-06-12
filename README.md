@@ -187,6 +187,11 @@ model:
             default: 0.7
 ```
 
+# 
+
+- No stream (realtime) output
+- 
+
 ## Roadmap
 
 Project vision and information can be found in [docs](docs/).

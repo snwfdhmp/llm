@@ -10,6 +10,8 @@ import dotenv from "dotenv"
 import { runLlama } from "./models/llama.js"
 import gpt2 from "./models/gpt2/model.js"
 import child_process from "child_process"
+import { promisify } from "util"
+const execPromise = promisify(child_process.exec)
 dotenv.config()
 
 // directory of this file
@@ -26,6 +28,15 @@ const initBing = () => {
   bing = new BingChat({
     cookie: process.env.BING_COOKIE,
   })
+}
+
+const initOpenai = () => {
+  if (!process.env.OPENAI_API_KEY) {
+    console.log(
+      "OpenAI API key not found. Please set OPENAI_API_KEY environment variable."
+    )
+    process.exit(1)
+  }
 }
 
 // create openai
@@ -96,125 +107,171 @@ yargs(hideBin(process.argv))
       if (args.file) {
         args.prompt = fs.readFileSync(args.prompt, "utf8")
       }
-      if (!MODELS[args.model]) {
-        if (!args.quiet) console.log(`Model ${args.model} not found`)
-        process.exit(1)
+      let modelDescriptor
+      if (MODELS[args.model]) {
+        modelDescriptor = MODELS[args.model]
+      } else {
+        try {
+          child_process.execSync(
+            `python .local/check.py "${escapeShell(args.model)}"`,
+            {
+              stdio: "inherit",
+              cwd: __dirname,
+            }
+          )
+          if (!args.quiet)
+            console.log(`Using ${args.model.yellow} from huggingface.`)
+          modelDescriptor = {
+            kind: "huggingface",
+          }
+        } catch (e) {
+          if (!args.quiet) console.log(`Model ${args.model} not found`)
+          console.log(e)
+          process.exit(1)
+        }
       }
 
       const getCompletion = async (args) => {
+        let completion
         let print = (data) => process.stdout.write(data)
         if (args.silent === true) print = () => {}
-        let completion
-        switch (MODELS[args.model].kind) {
-          case "openai":
-            if (!args.quiet) print(args.prompt.gray)
-            completion = (
-              await openai.createCompletion(
-                {
-                  model: args.model,
-                  prompt: args.prompt,
-                  max_tokens: args["max-tokens"],
-                  temperature: args.temperature,
-                },
-                {
-                  timeout: 1000 * 60 * 60,
-                }
-              )
-            ).data.choices[0].text
-            if (!args.quiet) print(" ")
-            print(completion)
-            if (completion && !completion.endsWith("\n")) print("\n")
-            break
-          case "openai-chat":
-            if (!args.quiet) print(`System: ${args.system}\n`.gray)
-            if (!args.quiet) print(`User: ${args.prompt}`.gray)
-            completion = (
-              await openai.createChatCompletion(
-                {
-                  model: args.model,
-                  max_tokens: args["max-tokens"],
-                  temperature: args.temperature,
-                  messages: [
-                    {
-                      role: "system",
-                      content: args.system,
-                    },
-                    {
-                      role: "user",
-                      content: args.prompt,
-                    },
-                  ],
-                },
-                {
-                  timeout: 1000 * 60 * 60,
-                }
-              )
-            ).data.choices[0].message.content
-            if (!args.quiet) print("\nAssistant: ")
-            print(completion)
-            // add \n if missing
-            if (completion && !completion.endsWith("\n")) print("\n")
-            break
-          case "bing-creative":
-            initBing()
-            if (!args.quiet) print(`User: ${args.prompt}`.gray)
-            completion = (
-              await bing.sendMessage(args.prompt, {
-                variant: "Creative",
-              })
-            ).text
-            if (!args.quiet) print(`\nBing: `)
-            print(completion)
-            if (completion && !completion.endsWith("\n")) print("\n")
-            break
-          case "bing":
-          case "bing-balanced":
-            initBing()
-            if (!args.quiet) print(`User: ${args.prompt}`.gray)
-            completion = (
-              await bing.sendMessage(args.prompt, {
-                variant: "Balanced",
-              })
-            ).text
-            if (!args.quiet) print(`\nBing: `)
-            print(completion)
-            if (!completion.endsWith("\n")) print("\n")
-            break
-          case "bing-precise":
-            initBing()
-            print(`User: ${args.prompt}`.gray)
-            completion = (
-              await bing.sendMessage(args.prompt, {
-                variant: "Precise",
-              })
-            ).text
-            if (!args.quiet) print(`\nBing: `)
-            print(completion)
-            if (!completion.endsWith("\n")) print("\n")
-            break
-          case "llama":
-            completion = await runLlama(args.prompt)
-            if (!completion) {
-              console.log(`${args.model} failed to generate a response.`.yellow)
-              return
-            }
-            if (!args.quiet) print(`${args.prompt} `.gray)
-            print(completion)
-            break
-          case "gpt-2":
-            if (!args.quiet) print(`${args.prompt} `.gray)
-            completion = await gpt2.completion(args)
-            print(completion)
-            break
-          case "gpt-2-xl":
-            if (!args.quiet) print(`${args.prompt} `.gray)
-            completion = await gpt2.completion(args)
-            print(completion)
-            break
-          default:
-            console.log(`model ${args.model} is known but not supported yet`)
-            process.exit(1)
-            break
+        try {
+          switch (modelDescriptor.kind) {
+            case "huggingface":
+              if (!args.quiet) print(args.prompt.gray)
+              try {
+                const { stdout } = await execPromise(
+                  `python use_huggingface.py --model "${escapeShell(
+                    args.model
+                  )}" --prompt "${escapeShell(args.prompt)}"`,
+                  {
+                    cwd: __dirname,
+                    encoding: "utf8",
+                  }
+                )
+                process.stdout.write(stdout)
+              } catch (error) {
+                console.error(`Error: ${error.message}`)
+                process.exit(1)
+              }
+              break
+            case "openai":
+              initOpenai()
+              if (!args.quiet) print(args.prompt.gray)
+              completion = (
+                await openai.createCompletion(
+                  {
+                    model: args.model,
+                    prompt: args.prompt,
+                    max_tokens: args["max-tokens"],
+                    temperature: args.temperature,
+                  },
+                  {
+                    timeout: 1000 * 60 * 60,
+                  }
+                )
+              ).data.choices[0].text
+              if (!args.quiet) print(" ")
+              print(completion)
+              if (completion && !completion.endsWith("\n")) print("\n")
+              break
+            case "openai-chat":
+              initOpenai()
+              if (!args.quiet) print(`System: ${args.system}\n`.gray)
+              if (!args.quiet) print(`User: ${args.prompt}`.gray)
+              completion = (
+                await openai.createChatCompletion(
+                  {
+                    model: args.model,
+                    max_tokens: args["max-tokens"],
+                    temperature: args.temperature,
+                    messages: [
+                      {
+                        role: "system",
+                        content: args.system,
+                      },
+                      {
+                        role: "user",
+                        content: args.prompt,
+                      },
+                    ],
+                  },
+                  {
+                    timeout: 1000 * 60 * 60,
+                  }
+                )
+              ).data.choices[0].message.content
+              if (!args.quiet) print("\nAssistant: ")
+              print(completion)
+              // add \n if missing
+              if (completion && !completion.endsWith("\n")) print("\n")
+              break
+            case "bing-creative":
+              initBing()
+              if (!args.quiet) print(`User: ${args.prompt}`.gray)
+              completion = (
+                await bing.sendMessage(args.prompt, {
+                  variant: "Creative",
+                })
+              ).text
+              if (!args.quiet) print(`\nBing: `)
+              print(completion)
+              if (completion && !completion.endsWith("\n")) print("\n")
+              break
+            case "bing":
+            case "bing-balanced":
+              initBing()
+              if (!args.quiet) print(`User: ${args.prompt}`.gray)
+              completion = (
+                await bing.sendMessage(args.prompt, {
+                  variant: "Balanced",
+                })
+              ).text
+              if (!args.quiet) print(`\nBing: `)
+              print(completion)
+              if (!completion.endsWith("\n")) print("\n")
+              break
+            case "bing-precise":
+              initBing()
+              print(`User: ${args.prompt}`.gray)
+              completion = (
+                await bing.sendMessage(args.prompt, {
+                  variant: "Precise",
+                })
+              ).text
+              if (!args.quiet) print(`\nBing: `)
+              print(completion)
+              if (!completion.endsWith("\n")) print("\n")
+              break
+            case "llama":
+              completion = await runLlama(args.prompt)
+              if (!completion) {
+                console.log(
+                  `${args.model} failed to generate a response.`.yellow
+                )
+                return
+              }
+              if (!args.quiet) print(`${args.prompt} `.gray)
+              print(completion)
+              break
+            case "gpt-2":
+              if (!args.quiet) print(`${args.prompt} `.gray)
+              completion = await gpt2.completion(args)
+              print(completion)
+              break
+            case "gpt-2-xl":
+              if (!args.quiet) print(`${args.prompt} `.gray)
+              completion = await gpt2.completion(args)
+              print(completion)
+              break
+            default:
+              console.log(`model ${args.model} is known but not supported yet`)
+              process.exit(1)
+              break
+          }
+        } catch (e) {
+          console.error(`Error: ${e.message}`)
+          return
         }
         return completion
       }
@@ -297,7 +354,7 @@ yargs(hideBin(process.argv))
           .toString()
 
         const finalOutput = await compileAndRun(
-          `${__dirname}/plugins/plugin_prompt--step3-alt.txt`,
+          `${__dirname}/plugins/plugin_prompt--step3.txt`,
           {
             information: JSON.stringify({
               plugin,
@@ -362,4 +419,8 @@ const relativeDate = (date) => {
     return `${Math.floor(diff / minute)} minutes ago`
   }
   return "just now"
+}
+
+function escapeShell(cmd) {
+  return cmd.replace(/(["'$`\\])/g, "\\$1")
 }
