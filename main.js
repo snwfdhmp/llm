@@ -113,7 +113,9 @@ yargs(hideBin(process.argv))
       } else {
         try {
           child_process.execSync(
-            `python .local/check.py "${escapeShell(args.model)}"`,
+            `python ${__dirname}/models/huggingface/check.py "${escapeShell(
+              args.model
+            )}"`,
             {
               stdio: "inherit",
               cwd: __dirname,
@@ -141,7 +143,7 @@ yargs(hideBin(process.argv))
               if (!args.quiet) print(args.prompt.gray)
               try {
                 const { stdout } = await execPromise(
-                  `python use_huggingface.py --model "${escapeShell(
+                  `python ${__dirname}/models/huggingface/use.py --model "${escapeShell(
                     args.model
                   )}" --prompt "${escapeShell(args.prompt)}"`,
                   {
