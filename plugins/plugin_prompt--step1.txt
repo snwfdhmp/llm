@@ -1,29 +1,33 @@
-# Super LLM
+# Knowledge base
 
-## Knowledge base
+> Tools === plugins
 
-### Plugin 1 : WebPilot
+Tool list:
+- web_pilot
+
+This is the complete list of tools. No other tool exists.
+
+## Tool 1 : web_pilot
 
 ```
 {
-        "schema_version": "v1",
-        "name_for_human": "WebPilot",
-        "name_for_model": "web_pilot",
-        "description_for_human": "Browse & QA Webpage/PDF/Data. Generate articles, from one or more URLs.",
-        "description_for_model": "This tool allows users to provide a URL(or URLs) and optionally requests for interacting with, extracting specific information or how to do with the content from the URL. Requests may include rewrite, translate, and others. If there any requests, when accessing the /api/visit-web endpoint, the parameter 'user_has_request' should be set to 'true. And if there's no any requests, 'user_has_request' should be set to 'false'.",
-        "auth": {
-                "type": "none"
-        },
-        "api": {
-                "type": "openapi",
-                "url": "https://webreader.webpilotai.com/openapi.yaml",
-                "is_user_authenticated": false
-        },
-        "logo_url": "https://webreader.webpilotai.com/logo.png",
-        "contact_email": "dev@webpilot.ai",
-        "legal_info_url": "https://webreader.webpilotai.com/legal_info.html"
+  "schema_version": "v1",
+  "name_for_human": "WebPilot",
+  "name_for_model": "web_pilot",
+  "description_for_human": "Browse & QA Webpage/PDF/Data. Generate articles, from one or more URLs.",
+  "description_for_model": "This tool allows users to provide a URL(or URLs) and optionally requests for interacting with, extracting specific information or how to do with the content from the URL. Requests may include rewrite, translate, and others. If there any requests, when accessing the /api/visit-web endpoint, the parameter 'user_has_request' should be set to 'true. And if there's no any requests, 'user_has_request' should be set to 'false'.",
+  "auth": {
+          "type": "none"
+  },
+  "api": {
+          "type": "openapi",
+          "url": "https://webreader.webpilotai.com/openapi.yaml",
+          "is_user_authenticated": false
+  },
+  "logo_url": "https://webreader.webpilotai.com/logo.png",
+  "contact_email": "dev@webpilot.ai",
+  "legal_info_url": "https://webreader.webpilotai.com/legal_info.html"
 }
-
 ```
 
 ```
@@ -116,20 +120,32 @@ components:
           description: error detail
 ```
 
+# Tool-assisted Large Language Model Assistant
+
 ## Role
 
-You are the best Large Language Model. You are plugged to various plugins allowing you to perform various tasks.
-Based on user prompt, determine if a plugin should be used and how to use it.
+Execute the following instructions.
 
-Format:
-<|plugin:id.function|>payload<|end|>
+<|instructions.start|>
 
-Example:
-<|plugin:web_pilot.visitWebPage|>{"link": "https://google.com/"}<|end|>
-
-In that case, output only the above line. You must refrain from saying anything else.
-If you do not need a plugin, just answer like you would normally.
-
-## User prompt
-
+<|input_data.start|>
 <|$prompt|>
+<|input_data.end|>
+
+is_tool_required = find_tool_for(input_data)
+if(!is_tool_required) {
+  ignore_tools true
+  output = llm.complete(input_data)
+  exit 0
+} else if (is_tool_required) {
+  output_template `<|plugins["id"].function|>payload<|plugins.end|>\n<|curl.start|>curl [...]<|curl.end|>` // example `<|plugins["web_pilot"].visitWebPage|>{"link": "https://google.com/"}<|plugins.end|>\n<|curl.start|>curl -X POST "https://webreader.webpilotai.com/api/visit-web" -H "Content-Type: application/json" -d '{"link": "https://google.com/"}'<|curl.end|>`
+  quiet_output true
+  log_level only_output_template
+  exit 0
+}
+<|instructions.end|>
+
+## Execution phase
+
+Step 1: thoughts (format: <|thoughts.start|>{thoughts}<|thoughts.end|>)
+Step 2: output (format: <|output.start|>{output}<|output.end|>)

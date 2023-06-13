@@ -319,28 +319,35 @@ yargs(hideBin(process.argv))
         }
 
         const prompt = args.prompt
-        const output = await compileAndRun(
+        const step1Output = await compileAndRun(
           `${__dirname}/plugins/plugin_prompt--step1.txt`,
           {
             prompt,
           }
         )
-        // <|plugin:id.function|>payload<|end|>
-        const regexp = /<\|(.*):(.*)\.(.*)\|>(.*)<\|end\|>/g
-        if (!output.match(regexp)) {
-          console.log(output)
+        /*
+          parse this output format:
+            <|output.start|>
+              <|plugins["web_pilot"].visitWebPage|>{"link": "https://github.com/snwfdhmp/gpt-chrome-extension"}<|plugins.end|>
+              <|curl.start|>curl -X POST "https://webreader.webpilotai.com/api/visit-web" -H "Content-Type: application/json" -d '{"link": "https://github.com/snwfdhmp/gpt-chrome-extension"}'<|curl.end|>
+            <|output.end|>
+          return { plugin, fn, payload, curlCommand}
+        */
+        const regexpOutput = /<\|output\.start\|>([\s\S]*)<\|output\.end\|>/
+        if (!step1Output.match(regexpOutput)) {
+          console.log(step1Output)
           process.exit(0)
         }
+        const [_, output] = regexpOutput.exec(step1Output)
+        const regexpPlugin =
+          /<\|plugins\["(.*)"\]\.([a-zA-Z0-9_]+)\|>(.*)<\|plugins\.end\|>/
 
-        const [_, __, plugin, fn, payload] = regexp.exec(output)
+        const [__, plugin, fn, payload] = regexpPlugin.exec(output)
         console.log(`${`Using plugin: ${plugin}.${fn}`.blue} ${payload}`)
 
-        const curlCommand = await compileAndRun(
-          `${__dirname}/plugins/plugin_prompt--step2.txt`,
-          {
-            step1: JSON.stringify({ plugin, fn, payload }),
-          }
-        )
+        const regexpCurl = /<\|curl\.start\|>(.*)<\|curl\.end\|>/
+        const [___, curlCommand] = regexpCurl.exec(output)
+
         if (
           !curlCommand.trim().startsWith("curl") ||
           !curlCommand.trim().split("\n").length > 1
@@ -358,7 +365,7 @@ yargs(hideBin(process.argv))
         const finalOutput = await compileAndRun(
           `${__dirname}/plugins/plugin_prompt--step3.txt`,
           {
-            information: JSON.stringify({
+            pluginsOutput: JSON.stringify({
               plugin,
               fn,
               payload,
@@ -368,7 +375,12 @@ yargs(hideBin(process.argv))
           }
         )
 
-        console.log(finalOutput)
+        const userOutput = regexpOutput.exec(finalOutput)
+        if (!userOutput) {
+          console.log(finalOutput.trim())
+        } else {
+          console.log(userOutput[1].trim())
+        }
       } else {
         await getCompletion(args)
         return
