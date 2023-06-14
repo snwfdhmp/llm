@@ -30,7 +30,18 @@ if (isWindows && isBash) {
 
 const concatPath = (path1, path2) => {
   let newPath = path1.replace(/\/$/, "") + "/" + path2.replace(/^\//, "")
-  return newPath
+  return compatiblePath(newPath)
+}
+
+const compatiblePath = (path) => {
+  if (isWindows) {
+    // /c/ to C:\
+    path = path.replace(/^\/([a-z])\//, (match, p1) => {
+      return p1.toUpperCase() + ":\\"
+    })
+    return path.replace(/^\//, "").replace(/\//g, "\\")
+  }
+  return path
 }
 
 let bing
