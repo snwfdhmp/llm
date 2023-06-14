@@ -21,7 +21,7 @@ let bing
 const initBing = () => {
   if (!process.env.BING_COOKIE) {
     console.log(
-      "Bing cookie not found. Please set BING_COOKIE environment variable."
+      "Bing cookie not found. Please set BING_COOKIE environment variable.\n\nUse Microsoft Edge, navigate to Bing Chat, look at sent cookies in Console/Network and copy it. (only _U is required for authentication)"
     )
     process.exit(1)
   }
@@ -33,7 +33,7 @@ const initBing = () => {
 const initOpenai = () => {
   if (!process.env.OPENAI_API_KEY) {
     console.log(
-      "OpenAI API key not found. Please set OPENAI_API_KEY environment variable."
+      "OpenAI API key not found. Please set OPENAI_API_KEY environment variable.\n\nhttps://platform.openai.com/account/api-keys"
     )
     process.exit(1)
   }
@@ -42,6 +42,7 @@ const initOpenai = () => {
 // create openai
 const openaiConfiguration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
+  organizationId: process.env.OPENAI_ORGANIZATION_ID || null,
 })
 const openai = new OpenAIApi(openaiConfiguration)
 
@@ -53,7 +54,7 @@ yargs(hideBin(process.argv))
     (yargs) => {
       yargs.option("model", {
         describe: "text-davinci-003,bing,...",
-        default: "gpt-3.5-turbo",
+        default: process.env.LLM_DEFAULT_MODEL || "gpt-3.5-turbo",
         alias: "m",
       })
       yargs.option("temperature", {
@@ -273,6 +274,7 @@ yargs(hideBin(process.argv))
           }
         } catch (e) {
           console.error(`Error: ${e.message}`)
+          console.log(e)
           return
         }
         return completion
