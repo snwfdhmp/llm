@@ -9,7 +9,7 @@ import fs from "fs"
 import dotenv from "dotenv"
 import { runLlama } from "./models/llama.js"
 import gpt2 from "./models/gpt2/model.js"
-import child_process from "child_process"
+import child_process, { exec } from "child_process"
 import { promisify } from "util"
 const execPromise = promisify(child_process.exec)
 dotenv.config()
@@ -330,29 +330,11 @@ yargs(hideBin(process.argv))
         }
         await processFile(args.prompt, false)
       } else if (args.plugins) {
-        // is curl available?
-        const getCurlPath = () => {
-          const pathsToTry = [
-            "/usr/bin/curl",
-            "/usr/local/bin/curl",
-            "/opt/homebrew/bin/curl",
-            "/usr/local/opt/curl/bin/curl",
-          ]
-          if (isWindows) {
-            pathsToTry.push("C:\\Program Files\\Git\\mingw64\\bin\\curl.exe")
-          }
-          if (process.env.PATH) {
-            const pathDelimiter = isWindows ? ";" : ":"
-            pathsToTry.push(...process.env.PATH.split(pathDelimiter))
-          }
-          for (const path of pathsToTry) {
-            if (fs.existsSync(path)) {
-              return path
-            }
-          }
-          return false
-        }
-        const curlPath = getCurlPath()
+        const curlPath = child_process
+          .execSync("which curl", {
+            encoding: "utf8",
+          })
+          .trim()
         if (!curlPath) {
           console.error(
             "curl is not available. Please install curl to use plugins."
