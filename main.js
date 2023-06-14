@@ -416,13 +416,21 @@ yargs(hideBin(process.argv))
           console.log("\n\n\t" + curlCommand.trim() + "\n\n")
           process.exit(1)
         }
+        let result
         try {
-          const result = child_process
-            .execSync(
-              curlCommand.trim().replace(/^curl/, `"${curlPath}"`) +
-                " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
-            )
-            .toString()
+          curlCommand =
+            curlCommand.trim().replace(/^curl/, `"${curlPath}"`) +
+            " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
+          // put url at the end
+          const url = curlCommand.match(/"https?:\/\/[^\s]+"/g)
+          if (!url) {
+            console.log("panic: does not look like a curl command")
+            console.log("\n\n\t" + curlCommand.trim() + "\n\n")
+            process.exit(1)
+          }
+          curlCommand = curlCommand.replace(url[0], "")
+          curlCommand = curlCommand + " " + url[0]
+          result = child_process.execSync(curlCommand).toString()
         } catch (e) {
           console.log("Error while executing curl command")
           console.log(e.message)
