@@ -416,12 +416,24 @@ yargs(hideBin(process.argv))
           console.log("\n\n\t" + curlCommand.trim() + "\n\n")
           process.exit(1)
         }
-        const result = child_process
-          .execSync(
-            curlCommand.trim().replace(/^curl/, `"${curlPath}"`) +
-              " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
-          )
-          .toString()
+        try {
+          const result = child_process
+            .execSync(
+              curlCommand.trim().replace(/^curl/, `"${curlPath}"`) +
+                " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
+            )
+            .toString()
+        } catch (e) {
+          console.log("Error while executing curl command")
+          console.log(e.message)
+          if (e.stdout) {
+            console.log(e.stdout.toString())
+          }
+          if (e.stderr) {
+            console.log(e.stderr.toString())
+          }
+          process.exit(1)
+        }
 
         // curl to axios
 
