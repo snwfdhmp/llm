@@ -19,9 +19,7 @@ let __dirname = new URL(".", import.meta.url).pathname
 
 // if windows
 const isWindows = process.platform === "win32"
-// is bash
-const isBash = process.env.SHELL.includes("bash")
-if (isWindows && isBash) {
+if (isWindows) {
   // /C:/ -> /c/
   __dirname = __dirname.replace(/^\/([A-Z]):/, (match, p1) => {
     return "/" + p1.toLowerCase()
@@ -332,6 +330,17 @@ yargs(hideBin(process.argv))
         }
         await processFile(args.prompt, false)
       } else if (args.plugins) {
+        // is curl available?
+        try {
+          child_process.execSync("curl --version", {
+            stdio: "ignore",
+          })
+        } catch (e) {
+          console.error(
+            "curl is not available. Please install curl to use plugins."
+          )
+          return
+        }
         if (!args.quiet) console.log("Plugins enabled")
 
         const compileAndRun = async (promptFilePath, variables) => {
@@ -394,6 +403,8 @@ yargs(hideBin(process.argv))
             curlCommand.trim() + " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
           )
           .toString()
+
+        // curl to axios
 
         const finalOutput = await compileAndRun(
           concatPath(__dirname, "/plugins/plugin_prompt--step3.txt"),
