@@ -23,7 +23,7 @@ const isWindows = process.platform === "win32"
 const isBash = process.env.SHELL.includes("bash")
 if (isWindows && isBash) {
   // /C:/ -> /c/
-  __dirname = __dirname.replace(/^\/([A-Z]:)/, (match, p1) => {
+  __dirname = __dirname.replace(/^\/([A-Z]):/, (match, p1) => {
     return "/" + p1.toLowerCase()
   })
 }
