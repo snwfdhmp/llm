@@ -17,6 +17,10 @@ dotenv.config()
 // directory of this file
 const __dirname = new URL(".", import.meta.url).pathname
 
+const concatPath = (path1, path2) => {
+  return path1.replace(/\/$/, "") + "/" + path2.replace(/^\//, "")
+}
+
 let bing
 const initBing = () => {
   if (!process.env.BING_COOKIE) {
@@ -114,9 +118,10 @@ yargs(hideBin(process.argv))
       } else {
         try {
           child_process.execSync(
-            `python ${__dirname}/models/huggingface/check.py "${escapeShell(
-              args.model
-            )}"`,
+            `python ${concatPath(
+              __dirname,
+              "/models/huggingface/check.py"
+            )} "${escapeShell(args.model)}"`,
             {
               stdio: "inherit",
               cwd: __dirname,
@@ -144,7 +149,10 @@ yargs(hideBin(process.argv))
               if (!args.quiet) print(args.prompt.gray)
               try {
                 const { stdout } = await execPromise(
-                  `python ${__dirname}/models/huggingface/use.py --model "${escapeShell(
+                  `python ${concatPath(
+                    __dirname,
+                    "/models/huggingface/use.py"
+                  )} --model "${escapeShell(
                     args.model
                   )}" --prompt "${escapeShell(args.prompt)}"`,
                   {
@@ -322,7 +330,7 @@ yargs(hideBin(process.argv))
 
         const prompt = args.prompt
         const step1Output = await compileAndRun(
-          `${__dirname}/plugins/plugin_prompt--step1.txt`,
+          concatPath(__dirname, "/plugins/plugin_prompt--step1.txt"),
           {
             prompt,
           }
@@ -365,7 +373,7 @@ yargs(hideBin(process.argv))
           .toString()
 
         const finalOutput = await compileAndRun(
-          `${__dirname}/plugins/plugin_prompt--step3.txt`,
+          concatPath(__dirname, "/plugins/plugin_prompt--step3.txt"),
           {
             pluginsOutput: JSON.stringify({
               plugin,
