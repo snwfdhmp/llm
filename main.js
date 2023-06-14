@@ -339,7 +339,7 @@ yargs(hideBin(process.argv))
             "/usr/local/opt/curl/bin/curl",
           ]
           if (isWindows) {
-            pathsToTry.push("C:\\Program Files\\Git\\mingw64\\bin\\")
+            pathsToTry.push("C:\\Program Files\\Git\\mingw64\\bin\\curl.exe")
           }
           if (process.env.PATH) {
             const pathDelimiter = isWindows ? ";" : ":"
