@@ -18,6 +18,7 @@ Hello there! How can I assist you today?
 | Model Name                   | Status | Description                                     |
 |------------------------------|--------|-------------------------------------------------|
 | gpt-3.5-turbo                | ✅      | ChatGPT                                         |
+| gpt-4                    | ✅      | GPT-4 via API ([waitlist](https://openai.com/waitlist/gpt-4-api))                     |
 | gpt-4-web                    | 🔄      | GPT-4 via chat.openai.com                       |
 | text-davinci-003             | ✅      | InstructGPT (GPT-3)                             |
 | bing-chat                    | ✅      | Bing Chat: creative, balanced, precise          |
@@ -187,10 +188,13 @@ model:
             default: 0.7
 ```
 
-# 
+## Env variables
 
-- No stream (realtime) output
-- 
+These variables can be used to tweak `llm` behavior.
+
+- `LLM_DEFAULT_MODEL` - The default model to use when no model is specified
+- `LLM_ENABLED_PLUGINS` - A comma-separated list of plugins to enable
+- `OPENAI_ORGANIZATION_ID` - The organization ID to use for OpenAI models
 
 ## Roadmap
 
