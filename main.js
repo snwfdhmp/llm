@@ -15,10 +15,22 @@ const execPromise = promisify(child_process.exec)
 dotenv.config()
 
 // directory of this file
-const __dirname = new URL(".", import.meta.url).pathname
+let __dirname = new URL(".", import.meta.url).pathname
+
+// if windows
+const isWindows = process.platform === "win32"
+// is bash
+const isBash = process.env.SHELL.includes("bash")
+if (isWindows && isBash) {
+  // /C:/ -> /c/
+  __dirname = __dirname.replace(/^\/([A-Z]:)/, (match, p1) => {
+    return "/" + p1.toLowerCase()
+  })
+}
 
 const concatPath = (path1, path2) => {
-  return path1.replace(/\/$/, "") + "/" + path2.replace(/^\//, "")
+  let newPath = path1.replace(/\/$/, "") + "/" + path2.replace(/^\//, "")
+  return newPath
 }
 
 let bing
