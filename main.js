@@ -406,7 +406,7 @@ yargs(hideBin(process.argv))
         console.log(`${`Using plugin: ${plugin}.${fn}`.blue} ${payload}`)
 
         const regexpCurl = /<\|curl\.start\|>(.*)<\|curl\.end\|>/
-        const [___, curlCommand] = regexpCurl.exec(output)
+        let [___, curlCommand] = regexpCurl.exec(output)
 
         if (
           !curlCommand.trim().startsWith("curl") ||
