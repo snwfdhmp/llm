@@ -418,7 +418,7 @@ yargs(hideBin(process.argv))
         }
         const result = child_process
           .execSync(
-            curlCommand.trim().replace(/^curl/, curlPath) +
+            curlCommand.trim().replace(/^curl/, `"${curlPath}"`) +
               " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
           )
           .toString()
