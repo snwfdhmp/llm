@@ -433,7 +433,7 @@ yargs(hideBin(process.argv))
           result = child_process.execSync(curlCommand).toString()
         } catch (e) {
           console.log("Error while executing curl command")
-          console.log(e.message)
+          console.log(e)
           if (e.stdout) {
             console.log(e.stdout.toString())
           }
