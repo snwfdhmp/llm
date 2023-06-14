@@ -331,15 +331,33 @@ yargs(hideBin(process.argv))
         await processFile(args.prompt, false)
       } else if (args.plugins) {
         // is curl available?
-        try {
-          child_process.execSync("curl --version", {
-            stdio: "ignore",
-          })
-        } catch (e) {
+        const getCurlPath = () => {
+          const pathsToTry = [
+            "/usr/bin/curl",
+            "/usr/local/bin/curl",
+            "/opt/homebrew/bin/curl",
+            "/usr/local/opt/curl/bin/curl",
+          ]
+          if (isWindows) {
+            pathsToTry.push("C:\\Program Files\\Git\\mingw64\\bin\\")
+          }
+          if (process.env.PATH) {
+            const pathDelimiter = isWindows ? ";" : ":"
+            pathsToTry.push(...process.env.PATH.split(pathDelimiter))
+          }
+          for (const path of pathsToTry) {
+            if (fs.existsSync(path)) {
+              return path
+            }
+          }
+          return false
+        }
+        const curlPath = getCurlPath()
+        if (!curlPath) {
           console.error(
             "curl is not available. Please install curl to use plugins."
           )
-          return
+          process.exit(1)
         }
         if (!args.quiet) console.log("Plugins enabled")
 
@@ -400,7 +418,8 @@ yargs(hideBin(process.argv))
         }
         const result = child_process
           .execSync(
-            curlCommand.trim() + " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
+            curlCommand.trim().replace(/^curl/, curlPath) +
+              " -s -H 'WebPilot-Friend-UID: snwfdhmp'"
           )
           .toString()
 
