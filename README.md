@@ -2,16 +2,12 @@
 
 Manipulate any language model from the command line.
 
-Learn more in [docs](docs/).
+Learn more about llm [features](#features).
 
 ```
 $ llm "Hello world."
 Hello there! How can I assist you today?
 ```
-
-Features:
-- Templating
-- Plugins
 
 ## Models
 
