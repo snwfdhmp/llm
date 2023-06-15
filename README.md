@@ -1,7 +1,5 @@
 # llm: language models usage made easy
 
-> This project is still in development. Production use is not recommended yet.
-
 Manipulate any language model from the command line.
 
 Learn more in [docs](docs/).
