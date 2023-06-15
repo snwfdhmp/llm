@@ -2,7 +2,7 @@
 
 Manipulate any language model from the command line.
 
-Learn more about llm [features](#features).
+Learn more about [features](#features).
 
 ```
 $ llm "Hello world."
