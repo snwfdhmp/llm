@@ -1,4 +1,4 @@
-# textcraft: language models manipulation
+# llm: language models usage made easy
 
 > This project is still in development. Production use is not recommended yet.
 
