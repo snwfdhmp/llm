@@ -21,14 +21,11 @@ Hello there! How can I assist you today?
 | text-davinci-003             | ✅      | InstructGPT (GPT-3)                             |
 | bing-chat                    | ✅      | Bing Chat: creative, balanced, precise          |
 | bert                         | ✅      | BERT by Google                                  |
-| llama-7b-hf                  | ✅      | Meta llama model                                |
+| llama-7b-hf                  | ✅      | Famous llama model                                |
 | wizardlm-13b-uncensored      | ✅      | WizardLM 30B                                    |
 | guanaco-65b-gptq             | ✅      | Guanaco 65B                                     |
 | gpt-2                        | ✅      | GPT-2 by OpenAI                                 |
-| bloom560                     | ✅      | BigScience Open-science Open-access             |
-| resnet-50                    | ✅      | Resnet by Microsoft                             |
 | bard                         | 🔄      | Google Bard                                     |
-| orca                         | 🔄     | Orca by Microsoft                               |
 | ... HuggingFace 🤗 models        | ✅      | every `text-generation` model |
 
 [Other models can be installed](#add-any-model) using the `--install` command.
