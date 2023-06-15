@@ -10,8 +10,8 @@ Hello there! How can I assist you today?
 ```
 
 Features:
-- Templating ✅
-- Plugins ✅
+- Templating
+- Plugins
 
 ## Models
 
