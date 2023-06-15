@@ -26,7 +26,7 @@ Hello there! How can I assist you today?
 | guanaco-65b-gptq             | ✅      | Guanaco 65B                                     |
 | gpt-2                        | ✅      | GPT-2 by OpenAI                                 |
 | bard                         | 🔄      | Google Bard                                     |
-| ... HuggingFace 🤗 models        | ✅      | every `text-generation` model |
+| ... HuggingFace 🤗 models        | ✅      | every [text-generation](https://huggingface.co/models?pipeline_tag=text-generation&sort=downloads) model |
 
 [Other models can be installed](#add-any-model) using the `--install` command.
 
