@@ -9,6 +9,10 @@ $ llm "Hello world."
 Hello there! How can I assist you today?
 ```
 
+Features:
+- Templating ✅
+- Plugins ✅
+
 ## Models
 
 > Some models are still being added. This is a work in progress.
