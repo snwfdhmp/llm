@@ -47,12 +47,11 @@ Hello there! How can I assist you today?
 ## Getting started
 
 ```
-git clone https://github.com/snwfdhmp/llm
-cd llm
+git clone https://github.com/snwfdhmp/llm && cd llm
 yarn install
 ```
 
-bind `llm` 
+make an alias `llm` 
 
 ```
 alias llm="node $(pwd)/main.js"
