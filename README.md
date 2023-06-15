@@ -2,12 +2,12 @@
 
 Manipulate any language model from the command line.
 
+From simple to [advanced usage](#features).
+
 ```
 $ llm "Hello world."
 Hello there! How can I assist you today?
 ```
-
-From simple to advanced [usage](#features).
 
 ## Models
 
