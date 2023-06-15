@@ -1,4 +1,4 @@
-# llm : use any Language Model from the command line
+# textcraft: language models manipulation
 
 > This project is still in development. Production use is not recommended yet.
 
