@@ -16,6 +16,8 @@ import {
 import { useLlm } from "./lib.js"
 dotenv.config()
 
+export * from "./lib.js"
+
 // directory of this file
 let __dirname = new URL(".", import.meta.url).pathname
 
