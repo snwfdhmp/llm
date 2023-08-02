@@ -31,7 +31,7 @@ export async function useLlm(args) {
   args.temperature = args.temperature ?? 0
   args.system = args.system ?? ""
   args.model = args.model ?? "gpt-3.5-turbo"
-  args.backoff429 = args.backoff429 ?? 2000
+  args.backoff = args.backoff ?? 2000
 
   let modelDescriptor
   if (MODELS[args.model]) {
@@ -91,10 +91,26 @@ export async function useLlm(args) {
       if (e.message.includes("429")) {
         if (!args.quiet)
           console.log(
-            `getCompletion: too many requests (429), waiting ${args.backoff429}ms`
+            `getCompletion: too many requests (429), waiting ${args.backoff}ms`
           )
-        await new Promise((resolve) => setTimeout(resolve, args.backoff429))
-        return await getCompletion({ ...args, backoff429: args.backoff429 * 2 })
+        await new Promise((resolve) => setTimeout(resolve, args.backoff))
+        return await getCompletion({ ...args, backoff: args.backoff * 2 })
+      }
+      if (e.message.includes("503")) {
+        if (!args.quiet)
+          console.log(
+            `getCompletion: service unavailable (503), waiting ${args.backoff}ms`
+          )
+        await new Promise((resolve) => setTimeout(resolve, args.backoff))
+        return await getCompletion({ ...args, backoff: args.backoff * 2 })
+      }
+      if (e.message.includes("502")) {
+        if (!args.quiet)
+          console.log(
+            `getCompletion: bad gateway (502), waiting ${args.backoff}ms`
+          )
+        await new Promise((resolve) => setTimeout(resolve, args.backoff))
+        return await getCompletion({ ...args, backoff: args.backoff * 2 })
       }
 
       console.error(`Error: ${e.message}`)
@@ -104,7 +120,44 @@ export async function useLlm(args) {
     return completion
   }
 
-  if (args.chain) {
+  if (args.interpret) {
+    let vars = args.vars || {}
+    const processFile = async (prompt) => {
+      const runInstructions = prompt.match(/<\|@(run.*)\|>/g) // these regex should be identical except the ()
+      const parts = prompt.split(/<\|@run.*\|>/g) // these regex should be identical except the ()
+      parts.pop()
+      let total = ""
+      for (let i = 0; i < parts.length; i++) {
+        // detect <|$var|> pattern
+        const matches = parts[i].match(/<\|\$.*?\|>/g)
+        const unique = [...new Set(matches)]
+        for (let j = 0; j < unique.length; j++) {
+          // replace var with value
+          const varName = unique[j].slice(3, -2)
+          const varValue = vars[varName]
+          if (varValue === undefined) {
+            console.log(`Variable ${varName} not found`)
+            process.exit(1)
+          }
+          parts[i] = parts[i].replace(unique[j], varValue)
+        }
+
+        const prompt = total + parts[i]
+        // console.log(`Running '''${prompt}'''`)
+        const completion = await getCompletion({
+          ...args,
+          prompt,
+        })
+        total = prompt + completion
+
+        const runInstruction = runInstructions[i].slice(3).slice(0, -2)
+        if (runInstruction === "run") continue
+        if (runInstruction.split(" ").includes("replace")) total = completion
+      }
+      return total
+    }
+    return await processFile(args.prompt)
+  } else if (args.chain) {
     const processFile = async (file, silent) => {
       // detect <|@var|> pattern
       const matches = file.match(/<\|@.*?\|>/g)

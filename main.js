@@ -85,6 +85,12 @@ yargs(hideBin(process.argv))
         boolean: true,
         alias: "C",
       })
+      yargs.option("interpret", {
+        describe: "use intrepreter",
+        default: false,
+        boolean: true,
+        alias: "I",
+      })
     },
     async (args) => {
       return await useLlm(args)
