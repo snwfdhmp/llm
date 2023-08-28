@@ -7,6 +7,8 @@ import { escapeShell, concatPath } from "./utils.js"
 import { useOpenai, useOpenaiChat } from "./apis/openai/api.js"
 import { useBing } from "./apis/bing/api.js"
 import { useHuggingface } from "./apis/huggingface/api.js"
+import { $ } from "zx"
+$.verbose = false
 dotenv.config()
 
 // directory of this file
@@ -81,38 +83,57 @@ export async function useLlm(args) {
         case "bing-precise":
           completion = await useBing({ print, args })
           break
+        case "wlm":
+        case "wizardlm-7b-uncensored":
+          if (!args.modelWasSet) {
+            args.model = "WizardLM-7B-Uncensored/ggml-model-q4_0.gguf"
+            args.modelContextSize = 4096
+            args.modelWasSet = true
+          }
+        case "wlm13":
+        case "wizardlm-13b":
+          if (!args.modelWasSet) {
+            args.model =
+              "WizardLM-1.0-Uncensored-Llama2-13b/ggml-model-q4_0.gguf"
+            args.modelContextSize = 2048
+            args.modelWasSet = true
+          }
+        case "__wizardlm-anymodel__":
+          const randInt = Math.floor(Math.random() * 1000000)
+          const promptPath = `/tmp/llm-prompt.tmp.${randInt}`
+          await fs.promises.writeFile(promptPath, args.prompt)
+          const basePath = "/Users/snwfdhmp/Dev/workspaces/ai"
+          completion =
+            await $`${basePath}/llama.cpp-custom/main -f "${promptPath}" -m ${basePath}/models/${args.model} -n -2 -c ${args.modelContextSize} -ngl 1 2>/dev/null`
+          completion = completion.stdout
+            .slice(1 + args.prompt.length)
+            .trimStart()
+          print(completion)
+          await fs.promises.unlink(promptPath)
+          break
         default:
           console.log(`model ${args.model} is known but not supported yet`)
           process.exit(1)
           break
       }
     } catch (e) {
-      // if 429 error
-      if (e.message.includes("429")) {
+      // handle network errors with backoff
+      const errorHandlers = [
+        { code: 429, message: "too many requests" },
+        { code: 503, message: "service unavailable" },
+        { code: 502, message: "bad gateway" },
+      ]
+      for (const errorHandler of errorHandlers) {
+        if (!e.message.includes(`${errorHandler.code}`)) continue
         if (!args.quiet)
           console.log(
-            `getCompletion: too many requests (429), waiting ${args.backoff}ms`
-          )
-        await new Promise((resolve) => setTimeout(resolve, args.backoff))
-        return await getCompletion({ ...args, backoff: args.backoff * 2 })
-      }
-      if (e.message.includes("503")) {
-        if (!args.quiet)
-          console.log(
-            `getCompletion: service unavailable (503), waiting ${args.backoff}ms`
-          )
-        await new Promise((resolve) => setTimeout(resolve, args.backoff))
-        return await getCompletion({ ...args, backoff: args.backoff * 2 })
-      }
-      if (e.message.includes("502")) {
-        if (!args.quiet)
-          console.log(
-            `getCompletion: bad gateway (502), waiting ${args.backoff}ms`
+            `getCompletion: ${errorHandler.message} (${errorHandler.code}), waiting ${args.backoff}ms`
           )
         await new Promise((resolve) => setTimeout(resolve, args.backoff))
         return await getCompletion({ ...args, backoff: args.backoff * 2 })
       }
 
+      // default error handler
       console.error(`Error: ${e.message}`)
       console.log(e)
       return

@@ -58,4 +58,6 @@ export const MODELS = {
   "bing-creative": { kind: "bing-creative" },
   "bing-balanced": { kind: "bing-balanced" },
   "bing-precise": { kind: "bing-precise" },
+  wlm: { kind: "wlm" },
+  wlm13: { kind: "wlm13" },
 }
