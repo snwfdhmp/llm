@@ -3,7 +3,7 @@ import { MODELS } from "./constants.js"
 import fs from "fs"
 import dotenv from "dotenv"
 import child_process from "child_process"
-import { relativeDate, escapeShell, concatPath } from "./utils.js"
+import { escapeShell, concatPath } from "./utils.js"
 import { useOpenai, useOpenaiChat } from "./apis/openai/api.js"
 import { useBing } from "./apis/bing/api.js"
 import { useHuggingface } from "./apis/huggingface/api.js"
@@ -30,7 +30,7 @@ export async function useLlm(args) {
 
   args.temperature = args.temperature ?? 0
   args.system = args.system ?? ""
-  args.model = args.model ?? "gpt-3.5-turbo"
+  args.model = args.model ?? "gpt-3.5-turbo-0613"
   args.backoff = args.backoff ?? 2000
 
   let modelDescriptor

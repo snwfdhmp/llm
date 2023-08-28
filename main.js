@@ -3,16 +3,9 @@ import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 import "colors"
 import { MODELS } from "./constants.js"
-import fs from "fs"
 import dotenv from "dotenv"
-import child_process from "child_process"
-import { relativeDate, escapeShell, concatPath } from "./utils.js"
-import {
-  useOpenai,
-  useOpenaiChat,
-  openai,
-  initOpenai,
-} from "./apis/openai/api.js"
+import { relativeDate } from "./utils.js"
+import { openai, initOpenai } from "./apis/openai/api.js"
 import { useLlm } from "./lib.js"
 dotenv.config()
 
@@ -65,7 +58,7 @@ yargs(hideBin(process.argv))
       })
       yargs.option("quiet", {
         describe: "print only the completion",
-        default: false,
+        default: true,
         boolean: true,
         alias: "q",
       })

@@ -1,4 +1,4 @@
-import { Configuration, OpenAIApi } from "openai"
+import { OpenAI } from "openai"
 
 // create openai
 export let openai = null
@@ -12,11 +12,10 @@ export const initOpenai = () => {
   }
 
   if (!openai) {
-    const openaiConfiguration = new Configuration({
+    openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
       organizationId: process.env.OPENAI_ORGANIZATION_ID || null,
     })
-    openai = new OpenAIApi(openaiConfiguration)
   }
 }
 
@@ -27,7 +26,7 @@ export const useOpenai = async ({ print, args }) => {
   if (!args.quiet) print(" ")
 
   const completion = (
-    await openai.createCompletion(
+    await openai.completions.create(
       {
         model: args.model,
         prompt: args.prompt,
@@ -38,7 +37,7 @@ export const useOpenai = async ({ print, args }) => {
         timeout: 1000 * 60 * 60,
       }
     )
-  ).data.choices[0].text
+  ).choices[0].text
   print(completion)
   if (completion && !completion.endsWith("\n")) print("\n")
   return completion
@@ -49,7 +48,7 @@ export const useOpenaiChat = async ({ print, args }) => {
   if (!args.quiet) print(`System: ${args.system}\n`.gray)
   if (!args.quiet) print(`User: ${args.prompt}`.gray)
   const completion = (
-    await openai.createChatCompletion(
+    await openai.chat.completions.create(
       {
         model: args.model,
         max_tokens: args["max-tokens"],
@@ -69,7 +68,7 @@ export const useOpenaiChat = async ({ print, args }) => {
         timeout: 1000 * 60 * 60,
       }
     )
-  ).data.choices[0].message.content
+  ).choices[0].message.content
   if (!args.quiet) print("\nAssistant: ")
   print(completion)
   // add \n if missing
