@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "llm",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "lib.js",
   "license": "CC-BY-4.0",
   "prettier": {
