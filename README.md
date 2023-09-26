@@ -9,6 +9,8 @@ $ llm "Hello world."
 Hello there! How can I assist you today?
 ```
 
+Leave a ⭐ star to support the project.
+
 ## Models
 
 > Some models are still being added. This is a work in progress.
