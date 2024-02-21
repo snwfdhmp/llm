@@ -40,7 +40,7 @@ export async function useLlm(args) {
     modelDescriptor = MODELS[args.model]
   } else if (args.model.startsWith("gpt-")) {
     modelDescriptor = {
-      kind: "openai",
+      kind: "openai-chat",
     }
   } else {
     try {
