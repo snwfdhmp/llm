@@ -9,22 +9,24 @@ $ llm "Hello world."
 Hello there! How can I assist you today?
 ```
 
+Leave a ⭐ star to support the project.
+
 ## Models
 
 > Some models are still being added. This is a work in progress.
 
 | Model Name                   | Status | Description                                     |
 |------------------------------|--------|-------------------------------------------------|
+| EVERY OpenAI model                | ✅      |                                         |
 | gpt-3.5-turbo                | ✅      | ChatGPT                                         |
 | gpt-4                    | ✅      | GPT-4 via API ([waitlist](https://openai.com/waitlist/gpt-4-api))                     |
-| gpt-4-web                    | 🔄      | GPT-4 via chat.openai.com                       |
 | text-davinci-003             | ✅      | InstructGPT (GPT-3)                             |
+| llama2                    | ✅      | Meta's Llama 2          |
 | bing-chat                    | ✅      | Bing Chat: creative, balanced, precise          |
 | bert                         | ✅      | BERT by Google                                  |
 | llama-7b-hf                  | ✅      | Famous llama model                                |
 | wizardlm-13b-uncensored      | ✅      | WizardLM 30B                                    |
 | guanaco-65b-gptq             | ✅      | Guanaco 65B                                     |
-| gpt-2                        | ✅      | GPT-2 by OpenAI                                 |
 | bard                         | 🔄      | Google Bard                                     |
 | ... HuggingFace 🤗 models        | ✅      | every [text-generation](https://huggingface.co/models?pipeline_tag=text-generation&sort=downloads) model |
 
@@ -196,6 +198,8 @@ Project vision and information can be found in [docs](docs/).
 
 ## Contributing
 
-Contributions are welcome. Please open an issue or a pull request.
+Contribute easily by leaving a ⭐ star to the project.
+
+Code contributions are welcome. Please open an issue or a pull request.
 
 Join the team at [discord.gg/ccDghPeAT9](https://discord.gg/ccDghPeAT9).
