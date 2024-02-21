@@ -38,6 +38,10 @@ export async function useLlm(args) {
   let modelDescriptor
   if (MODELS[args.model]) {
     modelDescriptor = MODELS[args.model]
+  } else if (args.model.startsWith("gpt-")) {
+    modelDescriptor = {
+      kind: "openai",
+    }
   } else {
     try {
       child_process.execSync(
