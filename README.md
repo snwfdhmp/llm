@@ -4,7 +4,7 @@
 > 
 > This package was made when the llm ecosystem was less developed.
 >
-> I don't have much time at the moment to keep it up to date, so it is now deprecated
+> I don't have enough free time at the moment for keeping it up to date, so it is now deprecated
 >
 > I recommend https://github.com/simonw/llm
 
