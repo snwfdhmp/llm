@@ -1,3 +1,13 @@
+> [!IMPORTANT]
+>
+> **DEPRECATED**
+> 
+> This package was made when the llm ecosystem was less developed.
+>
+> I don't have much time at the moment to keep it up to date, so it is now deprecated
+>
+> I recommend https://github.com/simonw/llm
+
 # llm: language models usage made easy
 
 Manipulate any language model from the command line.
